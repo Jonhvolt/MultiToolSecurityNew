@@ -1,0 +1,12 @@
+.text-input {
+    -fx-text-inner-color: #ffff8d;
+}
+.date-picker .text-field {
+    -fx-control-inner-background: #ffff8d ;
+}
+
+.text-area .text-field {
+    -fx-control-inner-background: #ffff8d ;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #ffff8d;
+}
