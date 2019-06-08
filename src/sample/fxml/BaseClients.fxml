@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -21,7 +22,7 @@
             <TableColumn fx:id="collumTheNotes" prefWidth="250.0" text="Примечания" />
          </columns>
       </TableView>
-      <JFXButton fx:id="btnBack" layoutY="8.0" onAction="#hideWindow" prefHeight="48.0" prefWidth="92.0" text="Назад" textFill="#ffff8d" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <JFXButton fx:id="btnBack" layoutX="6.0" layoutY="150.0" onAction="#hideWindow" prefHeight="48.0" prefWidth="92.0" text="Назад" textFill="#ffff8d" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="150.0">
          <font>
             <Font size="22.0" />
          </font>
@@ -41,10 +42,13 @@
             <Font name="Bauhaus 93" size="15.0" />
          </font>
       </JFXButton>
+      <Label layoutX="5.0" layoutY="589.0" text="Общая сумма:" textFill="#ffff8d" />
+      <Label fx:id="totalLabel" text="Label" textFill="#ffff8d" />
       <Label fx:id="labelCount" layoutX="5.0" layoutY="658.0" prefHeight="28.0" prefWidth="92.0" textFill="#ffff8d">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
+      <TextField fx:id="searchField" layoutY="2.0" prefHeight="25.0" prefWidth="102.0" promptText="Поиск" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="898.0" AnchorPane.topAnchor="2.0" />
    </children>
 </AnchorPane>

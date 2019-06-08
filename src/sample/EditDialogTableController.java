@@ -112,8 +112,8 @@ public class EditDialogTableController {
         stage.close();
     }
 
+    //берём id выбранного поля в таблицы и удаляем его из БД
     public void deleteClient(Client client){
-        //берём id выбранного поля в таблицы и удаляем его из БД
         int idDeleteClient = client.getId();
         String sql = "delete from baseobjecttable where id= '"+idDeleteClient+"'";
         connectForEditDB(sql);
@@ -125,8 +125,8 @@ public class EditDialogTableController {
         connectForEditDB(sql);
     }
 
+    //при нажатии кнопки сохранить, отправляем нового клиента в БД
     public void addClient() {
-        //при нажатии кнопки сохранить, отправляем нового клиента в БД
         String sql = "INSERT INTO baseobjecttable (name, address, contactUser, telephoneNumber, email, areaSecurity, priceToMonth, notes)"
                 + " VALUES ('"+nameField.getText()+"', '"+addressField.getText()+"', '"+userField.getText()+"', '"+telephoneNumberField.getText()+"', '"+emailField.getText()+"', '"+areaField.getText()+"', '"+priceToMonthField.getText()+"', '"+notesField.getText()+"')";
         connectForEditDB(sql);

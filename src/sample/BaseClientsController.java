@@ -1,20 +1,20 @@
 package sample;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +26,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sun.security.pkcs11.wrapper.CK_INFO;
 
 public class BaseClientsController {
 
@@ -80,6 +81,12 @@ public class BaseClientsController {
     @FXML
     private Label labelCount;
 
+    @FXML
+    private Label totalLabel;
+
+    @FXML
+    private TextField searchField;
+
     Client client;
     ObservableList<Client> listObjectInDB;
     Stage stage;
@@ -89,6 +96,7 @@ public class BaseClientsController {
         tableObject.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         initListeners(client);
         reloadTableClients();
+        filtredSearch();
     }
 
     public void reloadTableClients() {
@@ -96,7 +104,6 @@ public class BaseClientsController {
         insertTable(); //заполняет таблицу данными
         tableObject.setItems(listObjectInDB); //добавляем колонки с информацией в таблицу
     }
-
 
     public void insertTable() {
         collumNameClient.setCellValueFactory(cellData -> cellData.getValue().getterName());
@@ -151,7 +158,7 @@ public class BaseClientsController {
 
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK){
-                    tableObject.getItems().remove(client);
+                   tableObject.getItems().remove(client);
                     updateCountLabel();
                 } else {
                     alert.close();
@@ -221,7 +228,7 @@ public class BaseClientsController {
                     }
                 }
                 if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-                    //по нажатию правой кнопки мыши устанавливаем цвет текста
+                    //по нажатию правой кнопки мыши устанавливаем цвет
                 }
             }
         });
@@ -243,6 +250,40 @@ public class BaseClientsController {
     public void updateCountLabel() {
         labelCount.setText("");
         labelCount.setText("Объектов: " + listObjectInDB.size());
+    }
+
+    //метод считает колонки "Сумма ежемесячная" и итог устанавливает в label
+    public void setTotalLabel() {
+        int total = 0;
+        for (int x = 0; x < listObjectInDB.size() - 1; x++) {
+           total += Integer.parseInt(String.valueOf(listObjectInDB.get(x)) + String.valueOf(listObjectInDB.get(x + 1)));
+        }
+
+        totalLabel.setText(String.valueOf(total));
+    }
+
+    //метод отвечает за поле поиска и логика фильтра
+    public void filtredSearch() {
+        ObservableList data =  tableObject.getItems();
+        searchField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            if (oldValue != null && (newValue.length() < oldValue.length())) {
+                tableObject.setItems(data);
+            }
+            String value = newValue.toLowerCase();
+            ObservableList<Client> subentries = FXCollections.observableArrayList();
+
+            long count = tableObject.getColumns().stream().count();
+            for (int i = 0; i < tableObject.getItems().size(); i++) {
+                for (int j = 0; j < count; j++) {
+                    String entry = "" + tableObject.getColumns().get(j).getCellData(i);
+                    if (entry.toLowerCase().contains(value)) {
+                        subentries.add(tableObject.getItems().get(i));
+                        break;
+                    }
+                }
+            }
+            tableObject.setItems(subentries);
+        });
     }
 
 }
