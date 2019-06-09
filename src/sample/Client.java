@@ -11,6 +11,8 @@ public class Client {
     private SimpleStringProperty email = new SimpleStringProperty("");
     private SimpleStringProperty areaSecurity = new SimpleStringProperty("");
     private SimpleStringProperty priceToMonth = new SimpleStringProperty("");
+    private SimpleStringProperty simCards = new SimpleStringProperty("");
+    private SimpleStringProperty numberClients = new SimpleStringProperty("");
     private SimpleStringProperty notes = new SimpleStringProperty("");
 
     public Client(String name, String address, String contactUser, String telephoneNumber, String email, String areaSecurity, String priceToMonth, String notes){
@@ -33,6 +35,8 @@ public class Client {
         this.email = new SimpleStringProperty();
         this.areaSecurity = new SimpleStringProperty();
         this.priceToMonth = new SimpleStringProperty();
+        this.simCards = new SimpleStringProperty();
+        this.numberClients = new SimpleStringProperty();
         this.notes = new SimpleStringProperty();
     }
 
@@ -92,6 +96,30 @@ public class Client {
         this.priceToMonth.set(priceToMonth);
     }
 
+    public String getSimCards() {
+        return simCards.get();
+    }
+
+    public SimpleStringProperty simCardsProperty() {
+        return simCards;
+    }
+
+    public void setSimCards(String simCards) {
+        this.simCards.set(simCards);
+    }
+
+    public String getNumberClients() {
+        return numberClients.get();
+    }
+
+    public SimpleStringProperty numberClientsProperty() {
+        return numberClients;
+    }
+
+    public void setNumberClients(String numberClients) {
+        this.numberClients.set(numberClients);
+    }
+
     public String getNotes() {
         return notes.get();
     }
@@ -138,5 +166,13 @@ public class Client {
 
     public SimpleStringProperty getterNotes() {
         return notes;
+    }
+
+    public SimpleStringProperty getterSimCards() {
+        return simCards;
+    }
+
+    public SimpleStringProperty getterNumberClients() {
+        return numberClients;
     }
 }

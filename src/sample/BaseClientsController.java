@@ -1,19 +1,9 @@
 package sample;
 
-import java.io.IOException;
-import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.function.Predicate;
-
 import com.jfoenix.controls.JFXButton;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -26,7 +16,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import sun.security.pkcs11.wrapper.CK_INFO;
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class BaseClientsController {
 
@@ -64,6 +60,12 @@ public class BaseClientsController {
     private TableColumn<Client, String> collumEmailClient;
 
     @FXML
+    private TableColumn<Client, String> collumSimCards;
+
+    @FXML
+    private TableColumn<Client, String> collumNumberClients;
+
+    @FXML
     private TableColumn<Client, String> collumTheNotes;
 
     @FXML
@@ -97,6 +99,7 @@ public class BaseClientsController {
         initListeners(client);
         reloadTableClients();
         filtredSearch();
+        setTotalLabel();
     }
 
     public void reloadTableClients() {
@@ -113,6 +116,8 @@ public class BaseClientsController {
         collumEmailClient.setCellValueFactory(cellData -> cellData.getValue().getterEmail());
         collumAreaSecurity.setCellValueFactory(cellData -> cellData.getValue().getterAreaSecutiry());
         collumPriceToMonth.setCellValueFactory(cellData -> cellData.getValue().getterPriceToMonth());
+        collumSimCards.setCellValueFactory(cellData -> cellData.getValue().getterSimCards());
+        collumNumberClients.setCellValueFactory(cellData -> cellData.getValue().getterNumberClients());
         collumTheNotes.setCellValueFactory(cellData -> cellData.getValue().getterNotes());
         //меняет запись об общем колличестве объектов
         updateCountLabel();
@@ -157,8 +162,8 @@ public class BaseClientsController {
                 alert.setHeaderText("Удалить выбранный объект?");
 
                 Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK){
-                   tableObject.getItems().remove(client);
+                if (result.get() == ButtonType.OK) {
+                    tableObject.getItems().remove(client);
                     updateCountLabel();
                 } else {
                     alert.close();
@@ -170,7 +175,7 @@ public class BaseClientsController {
         }
     }
 
-    //метод берёт данные из БД и создаёт List с данными
+    //берёт данные из БД и создаёт List с данными
     public void listOfCollums() {
         try {
             listObjectInDB = FXCollections.observableArrayList();
@@ -189,6 +194,8 @@ public class BaseClientsController {
                 client.setEmail(resultSet.getString("email"));
                 client.setAreaSecurity(resultSet.getString("areaSecurity"));
                 client.setPriceToMonth(resultSet.getString("priceToMonth"));
+                client.setSimCards(resultSet.getString("simCards"));
+                client.setNumberClients(resultSet.getString("numberClients"));
                 client.setNotes(resultSet.getString("notes"));
                 listObjectInDB.add(client);
             }
@@ -200,7 +207,7 @@ public class BaseClientsController {
     }
 
     //создаём окно редактирования
-    public void createDialogStage (String title, int width, int height, Client client) throws IOException {
+    public void createDialogStage(String title, int width, int height, Client client) throws IOException {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/EditDialogTable.fxml"));
         Parent parent = loader.load();
@@ -221,7 +228,7 @@ public class BaseClientsController {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (mouseEvent.getClickCount() == 2) {  //если два клика
-                    try{
+                    try {
                         Client client = tableObject.getSelectionModel().getSelectedItem();
                         createDialogStage("Редактирование", 650, 434, client);
                     } catch (IOException e) {
@@ -252,19 +259,28 @@ public class BaseClientsController {
         labelCount.setText("Объектов: " + listObjectInDB.size());
     }
 
-    //метод считает колонки "Сумма ежемесячная" и итог устанавливает в label
+    //считает колонки "Сумма ежемесячная" и итог устанавливает в label
     public void setTotalLabel() {
-        int total = 0;
-        for (int x = 0; x < listObjectInDB.size() - 1; x++) {
-           total += Integer.parseInt(String.valueOf(listObjectInDB.get(x)) + String.valueOf(listObjectInDB.get(x + 1)));
+        double totalPrice = 0;
+        String temp;
+        if (listObjectInDB.size() > 0) {
+            for (int x = 0; x < listObjectInDB.size(); x++) {
+                //totalPrice = totalPrice + Integer.parseInt(listObjectInDB.get(x).getPriceToMonth());
+                temp = listObjectInDB.get(x).getPriceToMonth();
+                if (!(temp.equals(""))) {
+                    //добавить проверку на содержание числа в поле
+                    totalPrice = totalPrice + Integer.parseInt(temp);
+                } else {
+                    totalPrice = totalPrice + 0;
+                }
+            }
         }
-
-        totalLabel.setText(String.valueOf(total));
+        totalLabel.setText(String.valueOf(totalPrice));
     }
 
     //метод отвечает за поле поиска и логика фильтра
     public void filtredSearch() {
-        ObservableList data =  tableObject.getItems();
+        ObservableList data = tableObject.getItems();
         searchField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             if (oldValue != null && (newValue.length() < oldValue.length())) {
                 tableObject.setItems(data);

@@ -4,17 +4,21 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import java.io.*;
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class IncomeController {
 
@@ -131,14 +135,14 @@ public class IncomeController {
     //метод сохраняет данные в файл и берёт выбранные даты из Pickera
     private void saveReportToFile(File file) {
         try {
-        LocalDate startDate = dateStart.getValue();
-        LocalDate stopDate = dateStop.getValue();
-        //обработка ошибки о не выбранной дате
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        String currectDateStart = startDate.format(dateFormat);
-        String currectDateStop = stopDate.format(dateFormat);
-        String startAndStopDate = "Начало периода отчёта: " + currectDateStart + " окончание периода отчёта: " + currectDateStop + System.lineSeparator();
-        //запись данных в файл
+            LocalDate startDate = dateStart.getValue();
+            LocalDate stopDate = dateStop.getValue();
+            //обработка ошибки о не выбранной дате
+            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            String currectDateStart = startDate.format(dateFormat);
+            String currectDateStop = stopDate.format(dateFormat);
+            String startAndStopDate = "Начало периода отчёта: " + currectDateStart + " окончание периода отчёта: " + currectDateStop + System.lineSeparator();
+            //запись данных в файл
 
             FileWriter writer;
             writer = new FileWriter(file);
@@ -152,7 +156,7 @@ public class IncomeController {
             alert.setHeaderText("Выберите даты периода отчёта");
 
             Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK){
+            if (result.get() == ButtonType.OK) {
                 alert.close();
             } else {
                 alert.close();
@@ -167,7 +171,7 @@ public class IncomeController {
         fileChooser.setTitle("Сохранить отчёт");
         Stage stage = (Stage) reportBtn.getScene().getWindow();
         File file = fileChooser.showSaveDialog(stage);
-        if(file != null){
+        if (file != null) {
             saveReportToFile(file);
         }
     }
@@ -211,7 +215,8 @@ public class IncomeController {
         int clientsAccept;
         int clientsGone;
 
-        if (!(clientsAcceptedField.getText().isEmpty())) clientsAccept = Integer.parseInt(clientsAcceptedField.getText());
+        if (!(clientsAcceptedField.getText().isEmpty()))
+            clientsAccept = Integer.parseInt(clientsAcceptedField.getText());
         else clientsAccept = 0;
         if (!(clientsGoneField.getText().isEmpty())) clientsGone = Integer.parseInt(clientsGoneField.getText());
         else clientsGone = 0;
@@ -219,9 +224,11 @@ public class IncomeController {
         double clientsAcceptSum;
         double clientsGoneSum;
 
-        if (!(clientsAcceptedSumField.getText().isEmpty())) clientsAcceptSum = Double.parseDouble(clientsAcceptedSumField.getText());
+        if (!(clientsAcceptedSumField.getText().isEmpty()))
+            clientsAcceptSum = Double.parseDouble(clientsAcceptedSumField.getText());
         else clientsAcceptSum = 0;
-        if (!(clientsGoneSumField.getText().isEmpty())) clientsGoneSum = Double.parseDouble(clientsGoneSumField.getText());
+        if (!(clientsGoneSumField.getText().isEmpty()))
+            clientsGoneSum = Double.parseDouble(clientsGoneSumField.getText());
         else clientsGoneSum = 0;
 
         double totalSumClients = clientsAcceptSum - clientsGoneSum;
@@ -243,7 +250,8 @@ public class IncomeController {
 
         if (!(accruedСommonField.getText().isEmpty())) accrued = Double.parseDouble(accruedСommonField.getText());
         else accrued = 0;
-        if (!(arrivedNonCashField.getText().isEmpty())) nonCashAccrued = Double.parseDouble(nonСashAccruedField.getText());
+        if (!(arrivedNonCashField.getText().isEmpty()))
+            nonCashAccrued = Double.parseDouble(nonСashAccruedField.getText());
         else nonCashAccrued = 0;
         if (!(cashAccruedField.getText().isEmpty())) cashAccrued = Double.parseDouble(cashAccruedField.getText());
         else cashAccrued = 0;
@@ -256,11 +264,12 @@ public class IncomeController {
         double arrivedNonCash;
         double arrivedCash;
 
-        if (!(arrivedField.getText().isEmpty()))arrived = Double.parseDouble(arrivedField.getText());
+        if (!(arrivedField.getText().isEmpty())) arrived = Double.parseDouble(arrivedField.getText());
         else arrived = 0;
-        if (!(arrivedNonCashField.getText().isEmpty()))arrivedNonCash = Double.parseDouble(arrivedNonCashField.getText());
+        if (!(arrivedNonCashField.getText().isEmpty()))
+            arrivedNonCash = Double.parseDouble(arrivedNonCashField.getText());
         else arrivedNonCash = 0;
-        if (!(arrivedCashField.getText().isEmpty()))arrivedCash = Double.parseDouble(arrivedCashField.getText());
+        if (!(arrivedCashField.getText().isEmpty())) arrivedCash = Double.parseDouble(arrivedCashField.getText());
         else arrivedCash = 0;
 
         String arrivedString = "Общая сумма поступлений: " + arrived + System.lineSeparator();

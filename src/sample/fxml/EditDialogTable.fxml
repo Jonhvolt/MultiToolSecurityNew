@@ -26,6 +26,8 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
             <Label alignment="CENTER" prefHeight="29.0" prefWidth="207.0" text="Название объекта" textAlignment="RIGHT" textFill="#ffff8d" wrapText="true">
@@ -92,6 +94,16 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
+            <Label alignment="CENTER" prefHeight="29.0" prefWidth="243.0" text="Сим-карты" textAlignment="CENTER" textFill="#ffff8d" wrapText="true" GridPane.rowIndex="8">
+               <font>
+                  <Font name="Bebas Neue Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" prefHeight="29.0" prefWidth="243.0" text="Номер объекта" textAlignment="CENTER" textFill="#ffff8d" wrapText="true" GridPane.rowIndex="9">
+               <font>
+                  <Font name="Bebas Neue Bold" size="18.0" />
+               </font>
+            </Label>
             <JFXTextField fx:id="nameField" focusColor="#f0f1f2" prefHeight="25.0" prefWidth="389.0" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="1">
                <font>
                   <Font name="Bauhaus 93" size="18.0" />
@@ -128,6 +140,16 @@
                </font>
             </JFXTextField>
             <JFXTextField fx:id="notesField" focusColor="#f0f1f2" prefHeight="25.0" prefWidth="389.0" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <font>
+                  <Font name="Bauhaus 93" size="18.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="simCardsField" focusColor="#f0f1f2" prefHeight="25.0" prefWidth="389.0" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="1" GridPane.rowIndex="8">
+               <font>
+                  <Font name="Bauhaus 93" size="18.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="numberClientsField" focusColor="#f0f1f2" prefHeight="25.0" prefWidth="389.0" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="1" GridPane.rowIndex="9">
                <font>
                   <Font name="Bauhaus 93" size="18.0" />
                </font>

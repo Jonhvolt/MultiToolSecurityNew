@@ -19,6 +19,8 @@
             <TableColumn fx:id="collumAreaSecurity" prefWidth="149.0" text="Район охраны" />
             <TableColumn fx:id="collumPriceToMonth" prefWidth="130.0" text="Сумма ежемесячная" />
             <TableColumn fx:id="collumEmailClient" prefWidth="206.0" text="Почта" />
+            <TableColumn fx:id="collumSimCards" prefWidth="75.0" text="Сим-карты" />
+            <TableColumn fx:id="collumNumberClients" prefWidth="75.0" text="Номер объекта" />
             <TableColumn fx:id="collumTheNotes" prefWidth="250.0" text="Примечания" />
          </columns>
       </TableView>
@@ -43,7 +45,7 @@
          </font>
       </JFXButton>
       <Label layoutX="5.0" layoutY="589.0" text="Общая сумма:" textFill="#ffff8d" />
-      <Label fx:id="totalLabel" text="Label" textFill="#ffff8d" />
+      <Label fx:id="totalLabel" layoutX="5.0" layoutY="612.0" prefHeight="17.0" prefWidth="92.0" textFill="#ffff8d" />
       <Label fx:id="labelCount" layoutX="5.0" layoutY="658.0" prefHeight="28.0" prefWidth="92.0" textFill="#ffff8d">
          <font>
             <Font size="13.0" />

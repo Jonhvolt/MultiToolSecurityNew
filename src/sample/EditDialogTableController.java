@@ -2,13 +2,13 @@ package sample;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.stage.Stage;
 
 public class EditDialogTableController {
 
@@ -40,6 +40,12 @@ public class EditDialogTableController {
     private JFXTextField priceToMonthField;
 
     @FXML
+    private JFXTextField simCardsField;
+
+    @FXML
+    private JFXTextField numberClientsField;
+
+    @FXML
     private JFXTextField notesField;
 
     @FXML
@@ -66,8 +72,8 @@ public class EditDialogTableController {
         });
     }
 
-    //метод сохраняет в БД нового клиента и закрывает окно редактирования
-    public void addBtnsave(){
+    //сохраняет в БД нового клиента и закрывает окно редактирования
+    public void addBtnsave() {
         saveBtnEditTable.setOnAction(actionEvent -> {
             Stage stage = (Stage) saveBtnEditTable.getScene().getWindow();
             addClient();
@@ -76,7 +82,7 @@ public class EditDialogTableController {
         });
     }
 
-    //метод заполняет данными поля в окне редактирования, при нажатии кнопки "Изменить"
+    //заполняет данными поля в окне редактирования, при нажатии кнопки "Изменить"
     public void setClient(Client client) {
         if (client == null) {
             return;
@@ -89,10 +95,12 @@ public class EditDialogTableController {
         emailField.setText(this.client.getEmail());
         areaField.setText(this.client.getAreaSecurity());
         priceToMonthField.setText(this.client.getPriceToMonth());
+        simCardsField.setText(this.client.getSimCards());
+        numberClientsField.setText(this.client.getNumberClients());
         notesField.setText(this.client.getNotes());
     }
 
-    //метод создаёт объект типа Client с данными отредактированными пользователем после нажатия кнопки Изменить
+    //создаёт объект типа Client с данными отредактированными пользователем после нажатия кнопки Изменить
     public Client editClientItem() {
         client.setName(nameField.getText());
         client.setAddress(addressField.getText());
@@ -101,11 +109,13 @@ public class EditDialogTableController {
         client.setEmail(emailField.getText());
         client.setAreaSecurity(areaField.getText());
         client.setPriceToMonth(priceToMonthField.getText());
+        client.setSimCards(simCardsField.getText());
+        client.setNumberClients(numberClientsField.getText());
         client.setNotes(notesField.getText());
         return client;
     }
 
-    //метод закрывате окно редактирования при нажатии кнопки "Отмена"
+    //закрывате окно редактирования при нажатии кнопки "Отмена"
     public void actionClose(javafx.event.ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
@@ -113,22 +123,23 @@ public class EditDialogTableController {
     }
 
     //берём id выбранного поля в таблицы и удаляем его из БД
-    public void deleteClient(Client client){
+    public void deleteClient(Client client) {
         int idDeleteClient = client.getId();
-        String sql = "delete from baseobjecttable where id= '"+idDeleteClient+"'";
+        String sql = "delete from baseobjecttable where id= '" + idDeleteClient + "'";
         connectForEditDB(sql);
     }
 
-    public void editClient(Client client){
+    public void editClient(Client client) {
         int idClient = client.getId();
-        String sql = "update baseobjecttable set name='"+client.getName()+"', address = '"+client.getAddress()+"', contactUser='"+client.getContactUser()+"', telephoneNumber='"+client.getTelephoneNumber()+"', email='"+client.getEmail()+"', areaSecurity='"+client.getAreaSecurity()+"', priceToMonth='"+client.getPriceToMonth()+"', notes='"+client.getNotes()+"' WHERE id= '"+idClient+"'";
+        String sql = "update baseobjecttable set name='" + client.getName() + "', address = '" + client.getAddress() + "', contactUser='" + client.getContactUser() + "', telephoneNumber='" + client.getTelephoneNumber() + "', email='" + client.getEmail() + "', areaSecurity='" + client.getAreaSecurity() + "', priceToMonth='" + client.getPriceToMonth() + "', notes='" + client.getNotes() + "', simCards='" + client.getSimCards() + "', numberClients='" + client.getNumberClients() + "' WHERE id= '" + idClient + "'";
         connectForEditDB(sql);
     }
 
     //при нажатии кнопки сохранить, отправляем нового клиента в БД
     public void addClient() {
-        String sql = "INSERT INTO baseobjecttable (name, address, contactUser, telephoneNumber, email, areaSecurity, priceToMonth, notes)"
-                + " VALUES ('"+nameField.getText()+"', '"+addressField.getText()+"', '"+userField.getText()+"', '"+telephoneNumberField.getText()+"', '"+emailField.getText()+"', '"+areaField.getText()+"', '"+priceToMonthField.getText()+"', '"+notesField.getText()+"')";
+        String sql = "INSERT INTO baseobjecttable (name, address, contactUser, telephoneNumber, email, areaSecurity, priceToMonth, notes, simCards, numberClients)"
+                + " VALUES ('" + nameField.getText() + "', '" + addressField.getText() + "', '" + userField.getText() + "', '" + telephoneNumberField.getText() +
+                "', '" + emailField.getText() + "', '" + areaField.getText() + "', '" + priceToMonthField.getText() + "', '" + notesField.getText() + "', '" + simCardsField.getText() + "', '" + numberClientsField.getText() + "')";
         connectForEditDB(sql);
     }
 
@@ -145,7 +156,7 @@ public class EditDialogTableController {
         }
     }
 
-    public void setBaseClientController (BaseClientsController baseClient) {
+    public void setBaseClientController(BaseClientsController baseClient) {
         this.baseClient = baseClient;
     }
 }

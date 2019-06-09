@@ -4303,29 +4303,39 @@
       <DataType>varchar(600)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="1000" parent="344" name="PRIMARY">
+    <column id="1000" parent="344" name="simCards">
+      <Position>10</Position>
+      <DataType>varchar(45)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="1001" parent="344" name="numberClients">
+      <Position>11</Position>
+      <DataType>varchar(45)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="1002" parent="344" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="1001" parent="345" name="id">
+    <column id="1003" parent="345" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="1002" parent="345" name="thenote">
+    <column id="1004" parent="345" name="thenote">
       <Position>2</Position>
       <DataType>varchar(600)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="1003" parent="345" name="date">
+    <column id="1005" parent="345" name="date">
       <Position>3</Position>
       <DataType>varchar(10)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="1004" parent="345" name="PRIMARY">
+    <key id="1006" parent="345" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
