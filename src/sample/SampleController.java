@@ -1,14 +1,6 @@
 package sample;
 
 import com.jfoenix.controls.JFXButton;
-
-import java.io.IOException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-
 import com.jfoenix.controls.JFXDatePicker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +12,16 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import sample.ConnectionToDB;
+
+import java.io.IOException;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.ResourceBundle;
 
 public class SampleController {
 
@@ -88,7 +89,7 @@ public class SampleController {
         });
     }
 
-    //метод работает с заметками и запросом к БД
+    //работает с заметками и запросом к БД
     public void todayTheNoteToSample() {
         String note;
         //в этой переменной String будет совпадение текущей даты и даты из БД, если её там смогла найти программа
@@ -119,6 +120,20 @@ public class SampleController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    //показывает окно с должниками
+    public void shomDebetors() throws IOException {
+        Stage stage;
+        stage = (Stage) btnTheDebet.getScene().getWindow();
+        stage.close();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/debetors.fxml"));
+        Parent root = fxmlLoader.load();
+        stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Дебеторская задолженность");
+        stage.setScene(new Scene(root,1000, 700));
+        stage.show();
     }
 
     //показываем окно с базой клиентов

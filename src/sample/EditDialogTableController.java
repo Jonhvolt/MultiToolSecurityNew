@@ -55,6 +55,7 @@ public class EditDialogTableController {
     private JFXButton cancelBtn;
 
     Client client;
+    Debetors debetor;
     ConnectionToDB connect = new ConnectionToDB();
     private BaseClientsController baseClient;
 
@@ -84,20 +85,21 @@ public class EditDialogTableController {
 
     //заполняет данными поля в окне редактирования, при нажатии кнопки "Изменить"
     public void setClient(Client client) {
-        if (client == null) {
-            return;
-        }
-        this.client = client;
-        nameField.setText(this.client.getName());
-        addressField.setText(this.client.getAddress());
-        userField.setText(this.client.getContactUser());
-        telephoneNumberField.setText(this.client.getTelephoneNumber());
-        emailField.setText(this.client.getEmail());
-        areaField.setText(this.client.getAreaSecurity());
-        priceToMonthField.setText(this.client.getPriceToMonth());
-        simCardsField.setText(this.client.getSimCards());
-        numberClientsField.setText(this.client.getNumberClients());
-        notesField.setText(this.client.getNotes());
+            if (client == null) {
+                return;
+            }
+            this.client = client;
+            nameField.setText(this.client.getName());
+            addressField.setText(this.client.getAddress());
+            userField.setText(this.client.getContactUser());
+            telephoneNumberField.setText(this.client.getTelephoneNumber());
+            emailField.setText(this.client.getEmail());
+            areaField.setText(this.client.getAreaSecurity());
+            priceToMonthField.setText(this.client.getPriceToMonth());
+            simCardsField.setText(this.client.getSimCards());
+            numberClientsField.setText(this.client.getNumberClients());
+            notesField.setText(this.client.getNotes());
+
     }
 
     //создаёт объект типа Client с данными отредактированными пользователем после нажатия кнопки Изменить

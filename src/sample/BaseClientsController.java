@@ -1,6 +1,7 @@
 package sample;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -88,6 +89,9 @@ public class BaseClientsController {
 
     @FXML
     private TextField searchField;
+
+    @FXML
+    private JFXTextField searchJFXTextField;
 
     Client client;
     ObservableList<Client> listObjectInDB;
@@ -203,7 +207,6 @@ public class BaseClientsController {
         } catch (Exception e) {
 
         }
-
     }
 
     //создаём окно редактирования
@@ -265,7 +268,6 @@ public class BaseClientsController {
         String temp;
         if (listObjectInDB.size() > 0) {
             for (int x = 0; x < listObjectInDB.size(); x++) {
-                //totalPrice = totalPrice + Integer.parseInt(listObjectInDB.get(x).getPriceToMonth());
                 temp = listObjectInDB.get(x).getPriceToMonth();
                 if (!(temp.equals(""))) {
                     //добавить проверку на содержание числа в поле
@@ -281,7 +283,7 @@ public class BaseClientsController {
     //метод отвечает за поле поиска и логика фильтра
     public void filtredSearch() {
         ObservableList data = tableObject.getItems();
-        searchField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+        searchJFXTextField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             if (oldValue != null && (newValue.length() < oldValue.length())) {
                 tableObject.setItems(data);
             }
@@ -301,5 +303,4 @@ public class BaseClientsController {
             tableObject.setItems(subentries);
         });
     }
-
 }
