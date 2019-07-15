@@ -1,16 +1,16 @@
-package sample;
+package sample.controllers;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
-import sample.ConnectionToDB;
 
 public class CalendarController {
 
@@ -94,13 +94,7 @@ public class CalendarController {
         userTheNoteSaveBtn.setOnAction(actionEvent -> {
             String userTheNote = userInputTextArea.getText();
             String userTheNoteDate = dateTextField.getText();
-            ConnectionToDB connect = new ConnectionToDB();
-            try {
-                connect.connectionToDBnote();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            connect.createStatementExecuteUserTheNote(userTheNote, userTheNoteDate);
+
             userInputTextArea.setText("");
             //здесь нужно найти способ сворачивать окно заметок после нажатия кнопки сохранить
         });

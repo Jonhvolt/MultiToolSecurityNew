@@ -10,10 +10,11 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import sample.beans.Client;
+import sample.connection.ConnectToWEB;
+import sample.beans.Debetors;
 
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
 public class AddNewDebetorWindowController {
 
@@ -54,14 +55,14 @@ public class AddNewDebetorWindowController {
     public void createNewDebetorForDebetorsTable() throws IOException {
         debetor = new Debetors();
         Client client = tableSearchDebetors.getSelectionModel().getSelectedItem();
-        debetor.setNameDebetor(client.getName());
-        debetor.setTotalDebt("");
-        debetor.setLastPayment("");
+        debetor.setName_debetor(client.getName());
+        debetor.setTotal_debt("");
+        debetor.setLast_payment("");
         debetor.setComments("");
-        if (client.getTelephoneNumber().equals(null) || client.getTelephoneNumber() == null) {
-            debetor.setTelephonNumber("");
+        if (client.getTelephone_number().equals(null) || client.getTelephone_number() == null) {
+            debetor.setTelephone_number("");
         } else {
-            debetor.setTelephonNumber(client.getTelephoneNumber());
+            debetor.setTelephone_number(client.getTelephone_number());
         }
 
         if (client.getEmail().equals(null) || client.getEmail() == null) {
@@ -83,32 +84,8 @@ public class AddNewDebetorWindowController {
 
 
     public void insertListOfCollumn() {
-        try {
-            listObjectInDB = FXCollections.observableArrayList();
-            ConnectionToDB connect = new ConnectionToDB();
-            connect.connectionToDBnote();
-            Statement statement = connect.cnt.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from baseobjecttable");
-
-            while (resultSet.next()) {
-                Client client = new Client();
-                client.setId(resultSet.getInt("id"));
-                client.setName(resultSet.getString("name"));
-                client.setAddress(resultSet.getString("address"));
-                client.setContactUser(resultSet.getString("contactUser"));
-                client.setTelephoneNumber(resultSet.getString("telephoneNumber"));
-                client.setEmail(resultSet.getString("email"));
-                client.setAreaSecurity(resultSet.getString("areaSecurity"));
-                client.setPriceToMonth(resultSet.getString("priceToMonth"));
-                client.setSimCards(resultSet.getString("simCards"));
-                client.setNumberClients(resultSet.getString("numberClients"));
-                client.setNotes(resultSet.getString("notes"));
-                listObjectInDB.add(client);
-            }
-            connect.cnt.close();
-        } catch (Exception e) {
-
-        }
+        ConnectToWEB connectToWEB = new ConnectToWEB();
+        listObjectInDB = FXCollections.observableArrayList(connectToWEB.getConnectToWEB("clients"));
     }
 
     public void insertCollumnDebetors() {

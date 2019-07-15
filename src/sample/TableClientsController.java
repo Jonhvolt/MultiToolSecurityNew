@@ -9,23 +9,20 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sample.beans.Client;
+import sample.connection.ConnectToWEB;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class BaseClientsController {
+public class TableClientsController {
 
     @FXML
     private ResourceBundle resources;
@@ -96,6 +93,7 @@ public class BaseClientsController {
     Client client;
     ObservableList<Client> listObjectInDB;
     Stage stage;
+    Main main = new Main();
 
     @FXML
     void initialize() {
@@ -103,12 +101,12 @@ public class BaseClientsController {
         initListeners(client);
         reloadTableClients();
         filtredSearch();
-        setTotalLabel();
     }
 
     public void reloadTableClients() {
         listOfCollums(); //формирует List с объектами типа клиент вытащенными из БД
         insertTable(); //заполняет таблицу данными
+        setTotalLabel();
         tableObject.setItems(listObjectInDB); //добавляем колонки с информацией в таблицу
     }
 
@@ -136,20 +134,12 @@ public class BaseClientsController {
         Button clickedBtn = (Button) source;
         client = tableObject.getSelectionModel().getSelectedItem();
 
-        Stage stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/EditDialogTable.fxml"));
-        Parent parent = loader.load();
-        stage.setTitle("Редактирование");
-        stage.setResizable(false);
-        stage.setScene(new Scene(parent, 640, 409));
-        stage.initModality(Modality.APPLICATION_MODAL);
-        EditDialogTableController controller = loader.<EditDialogTableController>getController();
         switch (clickedBtn.getId()) {
             case "addBtn":
                 try {
+                    EditDialogTableController controller = main.showNewWindow("fxml/EditDialogTable.fxml", "Редактирование", 640, 409, Modality.APPLICATION_MODAL).getController();
                     controller.addBtnsave();
                     controller.setBaseClientController(this);
-                    stage.showAndWait();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -159,6 +149,10 @@ public class BaseClientsController {
                 createDialogStage("Редактирование", 650, 434, client);
                 break;
             case "delBtn":
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/EditDialogTable.fxml"));
+                loader.load();
+                EditDialogTableController controller = loader.<EditDialogTableController>getController();
+
                 if (client == null) break;
 
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -181,48 +175,14 @@ public class BaseClientsController {
 
     //берёт данные из БД и создаёт List с данными
     public void listOfCollums() {
-        try {
-            listObjectInDB = FXCollections.observableArrayList();
-            ConnectionToDB connect = new ConnectionToDB();
-            connect.connectionToDBnote();
-            Statement statement = connect.cnt.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from baseobjecttable");
-
-            while (resultSet.next()) {
-                Client client = new Client();
-                client.setId(resultSet.getInt("id"));
-                client.setName(resultSet.getString("name"));
-                client.setAddress(resultSet.getString("address"));
-                client.setContactUser(resultSet.getString("contactUser"));
-                client.setTelephoneNumber(resultSet.getString("telephoneNumber"));
-                client.setEmail(resultSet.getString("email"));
-                client.setAreaSecurity(resultSet.getString("areaSecurity"));
-                client.setPriceToMonth(resultSet.getString("priceToMonth"));
-                client.setSimCards(resultSet.getString("simCards"));
-                client.setNumberClients(resultSet.getString("numberClients"));
-                client.setNotes(resultSet.getString("notes"));
-                listObjectInDB.add(client);
-            }
-            connect.cnt.close();
-        } catch (Exception e) {
-
-        }
+        ConnectToWEB connectToWEB = new ConnectToWEB();
+        listObjectInDB = FXCollections.observableArrayList(connectToWEB.getConnectToWEB("clients"));
     }
 
     //создаём окно редактирования
     public void createDialogStage(String title, int width, int height, Client client) throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/EditDialogTable.fxml"));
-        Parent parent = loader.load();
-        Scene scene = new Scene(parent, width, height);
-        stage.setTitle(title);
-        stage.setResizable(false);
-        stage.setScene(scene);
-        stage.initModality(Modality.APPLICATION_MODAL);
-
-        EditDialogTableController controller = loader.<EditDialogTableController>getController();
+        EditDialogTableController controller = main.showNewWindow("fxml/EditDialogTable.fxml", title, width, height, Modality.APPLICATION_MODAL).getController();
         if (client != null) controller.setClient(client);
-        stage.showAndWait();
     }
 
     //слушает клики мышью в таблице по выбранному полю
@@ -237,9 +197,6 @@ public class BaseClientsController {
                     } catch (IOException e) {
                     }
                 }
-                if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-                    //по нажатию правой кнопки мыши устанавливаем цвет
-                }
             }
         });
     }
@@ -248,18 +205,14 @@ public class BaseClientsController {
     public void hideWindow() throws IOException {
         stage = (Stage) btnBack.getScene().getWindow();
         stage.close();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/sample.fxml"));
-        Parent root = loader.load();
-        stage.setResizable(false);
-        stage.setTitle("MultiToolSecurity v0.1");
-        stage.setScene(new Scene(root, 1000, 700));
-        stage.show();
+        main.showNewWindow("fxml/Sample.fxml", "MultiToolSecurity v0.1", 1000, 700, Modality.NONE);
     }
 
     //обновляет данные об общем количестве записей в таблице
     public void updateCountLabel() {
         labelCount.setText("");
         labelCount.setText("Объектов: " + listObjectInDB.size());
+        setTotalLabel();
     }
 
     //считает колонки "Сумма ежемесячная" и итог устанавливает в label
@@ -268,8 +221,8 @@ public class BaseClientsController {
         String temp;
         if (listObjectInDB.size() > 0) {
             for (int x = 0; x < listObjectInDB.size(); x++) {
-                temp = listObjectInDB.get(x).getPriceToMonth();
-                if (!(temp.equals(""))) {
+                temp = listObjectInDB.get(x).getPrice_to_month();
+                if (!(temp.equals("") && temp != null)) {
                     //добавить проверку на содержание числа в поле
                     totalPrice = totalPrice + Integer.parseInt(temp);
                 } else {

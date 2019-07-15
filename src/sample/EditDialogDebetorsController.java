@@ -5,8 +5,9 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import sample.connection.ConnectToWEB;
+import sample.beans.Debetors;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -47,7 +48,7 @@ public class EditDialogDebetorsController {
 
     public double totalDebtDouble;
 
-    Debetors debetor;
+    public Debetors debetor;
 
     @FXML
     void initialize() {
@@ -57,19 +58,14 @@ public class EditDialogDebetorsController {
         });
     }
 
-    public void saveEdit() throws IOException {
+    public void saveEdit() {
         Stage stage = (Stage) saveEditDebetorBtn.getScene().getWindow();
-        //создать новый объект Дебетор
-        int idClient = this.debetor.getId();
-        this.debetor.setTotalDebt(totalDebtField.getText());
-        this.debetor.setLastPayment(lastPaymentField.getText());
+        this.debetor.setTotal_debt(totalDebtField.getText());
+        this.debetor.setLast_payment(lastPaymentField.getText());
         this.debetor.setComments(commentsField.getText());
-        //отправляем в БД
-        EditDialogTableController editDialogTableController = new EditDialogTableController();
-        String sql = "update debetorstable set nameDebetor='" + debetor.getNameDebetor() + "', totalDebt = '" + debetor.getTotalDebt() + "', lastPayment='" +
-                debetor.getLastPayment() + "', comments='" + debetor.getComments() + "', telephoneNumber='" + debetor.getTelephonNumber() + "', email='"
-                + debetor.getEmail() + "' WHERE id= '" + idClient + "'";
-        editDialogTableController.connectForEditDB(sql);
+        ConnectToWEB connectToWEB = new ConnectToWEB();
+        connectToWEB.saveConnectToWEB(debetor);
         stage.close();
     }
+
 }

@@ -5,9 +5,10 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.stage.Stage;
+import sample.beans.Client;
+import sample.connection.ConnectToWEB;
 
 import java.net.URL;
-import java.sql.PreparedStatement;
 import java.util.ResourceBundle;
 
 public class EditDialogTableController {
@@ -55,9 +56,8 @@ public class EditDialogTableController {
     private JFXButton cancelBtn;
 
     Client client;
-    Debetors debetor;
-    ConnectionToDB connect = new ConnectionToDB();
-    private BaseClientsController baseClient;
+    ConnectToWEB connectToWEB = new ConnectToWEB();
+    private TableClientsController baseClient;
 
     @FXML
     void initialize() {
@@ -91,13 +91,13 @@ public class EditDialogTableController {
             this.client = client;
             nameField.setText(this.client.getName());
             addressField.setText(this.client.getAddress());
-            userField.setText(this.client.getContactUser());
-            telephoneNumberField.setText(this.client.getTelephoneNumber());
+            userField.setText(this.client.getContact_user());
+            telephoneNumberField.setText(this.client.getTelephone_number());
             emailField.setText(this.client.getEmail());
-            areaField.setText(this.client.getAreaSecurity());
-            priceToMonthField.setText(this.client.getPriceToMonth());
-            simCardsField.setText(this.client.getSimCards());
-            numberClientsField.setText(this.client.getNumberClients());
+            areaField.setText(this.client.getArea_security());
+            priceToMonthField.setText(this.client.getPrice_to_month());
+            simCardsField.setText(this.client.getSim_cards());
+            numberClientsField.setText(this.client.getNumber_clients());
             notesField.setText(this.client.getNotes());
 
     }
@@ -106,13 +106,13 @@ public class EditDialogTableController {
     public Client editClientItem() {
         client.setName(nameField.getText());
         client.setAddress(addressField.getText());
-        client.setContactUser(userField.getText());
-        client.setTelephoneNumber(telephoneNumberField.getText());
+        client.setContact_user(userField.getText());
+        client.setTelephone_number(telephoneNumberField.getText());
         client.setEmail(emailField.getText());
-        client.setAreaSecurity(areaField.getText());
-        client.setPriceToMonth(priceToMonthField.getText());
-        client.setSimCards(simCardsField.getText());
-        client.setNumberClients(numberClientsField.getText());
+        client.setArea_security(areaField.getText());
+        client.setPrice_to_month(priceToMonthField.getText());
+        client.setSim_cards(simCardsField.getText());
+        client.setNumber_clients(numberClientsField.getText());
         client.setNotes(notesField.getText());
         return client;
     }
@@ -124,41 +124,21 @@ public class EditDialogTableController {
         stage.close();
     }
 
-    //берём id выбранного поля в таблицы и удаляем его из БД
     public void deleteClient(Client client) {
-        int idDeleteClient = client.getId();
-        String sql = "delete from baseobjecttable where id= '" + idDeleteClient + "'";
-        connectForEditDB(sql);
+        connectToWEB.deleteConnectToWEB(client);
     }
 
     public void editClient(Client client) {
-        int idClient = client.getId();
-        String sql = "update baseobjecttable set name='" + client.getName() + "', address = '" + client.getAddress() + "', contactUser='" + client.getContactUser() + "', telephoneNumber='" + client.getTelephoneNumber() + "', email='" + client.getEmail() + "', areaSecurity='" + client.getAreaSecurity() + "', priceToMonth='" + client.getPriceToMonth() + "', notes='" + client.getNotes() + "', simCards='" + client.getSimCards() + "', numberClients='" + client.getNumberClients() + "' WHERE id= '" + idClient + "'";
-        connectForEditDB(sql);
+        connectToWEB.saveConnectToWEB(client);
     }
 
     //при нажатии кнопки сохранить, отправляем нового клиента в БД
     public void addClient() {
-        String sql = "INSERT INTO baseobjecttable (name, address, contactUser, telephoneNumber, email, areaSecurity, priceToMonth, notes, simCards, numberClients)"
-                + " VALUES ('" + nameField.getText() + "', '" + addressField.getText() + "', '" + userField.getText() + "', '" + telephoneNumberField.getText() +
-                "', '" + emailField.getText() + "', '" + areaField.getText() + "', '" + priceToMonthField.getText() + "', '" + notesField.getText() + "', '" + simCardsField.getText() + "', '" + numberClientsField.getText() + "')";
-        connectForEditDB(sql);
+        Client client = new Client(nameField.getText(), addressField.getText(), userField.getText(), telephoneNumberField.getText(), emailField.getText(), areaField.getText(), priceToMonthField.getText(), notesField.getText(), simCardsField.getText(), numberClientsField.getText());
+        connectToWEB.saveConnectToWEB(client);
     }
 
-    public void connectForEditDB(String sql) {
-        //метод получает строку запроса sql и формирует запрос к БД
-        try {
-            connect.connectionToDBnote();
-            PreparedStatement statement = connect.cnt.prepareStatement(sql);
-            statement.executeUpdate();
-            connect.cnt.close();
-            System.out.println("Соединение с БД закрыто");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setBaseClientController(BaseClientsController baseClient) {
+    public void setBaseClientController(TableClientsController baseClient) {
         this.baseClient = baseClient;
     }
 }

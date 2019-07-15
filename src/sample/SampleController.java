@@ -3,24 +3,16 @@ package sample;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sample.beans.Note;
+import sample.connection.ConnectToWEB;
 
-import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class SampleController {
@@ -65,123 +57,82 @@ public class SampleController {
     private JFXDatePicker datePicker;
 
     @FXML
+    private Label labelTodayTheNote;
+
+    Stage stage;
+    Main main = new Main();
+
+    @FXML
     void initialize() {
         todayTheNoteToSample();
+
+        btnClientBase.setOnAction(event -> {
+            stage = (Stage) btnClientBase.getScene().getWindow();
+            stage.close();
+            main.showNewWindow("fxml/BaseClients.fxml", "База клиентов", 1000, 700, Modality.APPLICATION_MODAL);
+        });
+
+        btnTheDebet.setOnAction(event -> {
+            stage = (Stage)btnTheDebet.getScene().getWindow();
+            stage.close();
+            main.showNewWindow("fxml/Debetors.fxml", "Дебеторская задолженность", 1000, 700, Modality.APPLICATION_MODAL);
+        });
+
+        btnIncome.setOnAction(event -> {
+            main.showNewWindow("fxml/Income.fxml", "Формирование отчета", 1000, 700, Modality.NONE);
+        });
+
+        btnCalendar.setOnAction(event -> {
+            main.showNewWindow("fxml/Calendar.fxml", "Календарь", 574, 300, Modality.NONE);
+        });
+
+        btnCalc.setOnAction(event -> {
+            main.showNewWindow("fxml/Calculator.fxml", "Калькулятор", 300, 400, Modality.NONE);
+        });
     }
 
     //Работаем с заметками на стартовом экране
     public void createTheNoteStartWindow() {
-        //по нажатию кнопки "Сохранить", берём текст заметки и дату, формируем statement и передаём в БД в нужные поля
+        //по нажатию кнопки "Сохранить", берём текст заметки и дату, и передаём в БД
         userTheNoteSaveBtn.setOnAction(actionEvent -> {
             String userTheNote = userInputTextArea.getText();
-            LocalDate date = datePicker.getValue();
-            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-            String userTheNoteDate = date.format(dateFormat);
-            ConnectionToDB connect = new ConnectionToDB();
-            try {
-                connect.connectionToDBnote();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            connect.createStatementExecuteUserTheNote(userTheNote, userTheNoteDate);
-            userInputTextArea.setText("");
-            //здесь нужно найти способ сворачивать окно заметок после нажатия кнопки сохранить
+
+            if (userTheNote != null && ! (userTheNote.isEmpty())) {
+                if (datePicker.getValue() == null) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setHeaderText("Вы не выбрали дату");
+                    alert.showAndWait();
+                    return;
+                }
+                LocalDate date = datePicker.getValue();
+                String stringDATE = date.toString();
+                if (!(userTheNote.equals("")) && !(userTheNote == null) && date != null) {
+                    Note note = new Note(userTheNote, stringDATE);
+                    ConnectToWEB connectToWEB = new ConnectToWEB();
+                    connectToWEB.saveNoteToWEB(note);
+                }
+                userTheNoteOfSample.setExpanded(false);
+            } else return;
         });
     }
 
-    //работает с заметками и запросом к БД
+    //показывает заметку на главном экране, если на этот день есть заметка
     public void todayTheNoteToSample() {
-        String note;
-        //в этой переменной String будет совпадение текущей даты и даты из БД, если её там смогла найти программа
-        Calendar todayDate = new GregorianCalendar();
-        SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yyyy");
-        //получаем текущую дату в формате String
-        String dateStringTodayForSimple = formatForDateNow.format(todayDate.getTime());
-        //далее подключаемся к БД и формируем Statement в классе ConnectionToDB, чтобы вытащить данные из колонки Date
-        ConnectionToDB connect = new ConnectionToDB();
-        try {
-            connect.connectionToDBnote();
-            connect.createStatementSelectTheNoteToday();
-            ArrayList<String> listDate = connect.dateResultList;
-            for (int x = 0; x < listDate.size(); x++) {
-                //если есть совпадения, то выводим на главном экране заметку из БД
-                if(listDate.get(x).equals(dateStringTodayForSimple)) {
-                    ArrayList<String> listNote = connect.noteResultList;
-                    note = listNote.get(x);
-                    String a = simpleTodayTheNote.getText();
-                    simpleTodayTheNote.setText(a + "\n" + note);
-                }
-                else if (x == listDate.size()){
-                    //Выводим, если нет совпадений, т.е. не найдены заметки на сегодня
-                    String sNone = "На сегодня заметок нет.";
-                    simpleTodayTheNote.setText(sNone);
+        String strDATE_NOW = LocalDate.now().toString();
+        ConnectToWEB connectToWEB = new ConnectToWEB();
+        connectToWEB.getNotesToWEB();
+        List<Note> listNotes = new ArrayList<>(connectToWEB.getNotesToWEB());
+
+        if (listNotes.size() > 0) {
+            int count = 0;
+            for (Note note : listNotes) {
+                if (note.getDate().equals(strDATE_NOW)) {
+                    count++;
+                    simpleTodayTheNote.setText(simpleTodayTheNote.getText() + count + ") " + note.getThe_note() + System.lineSeparator());
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            labelTodayTheNote.setText("На сегодня заметок нет");
         }
-    }
-
-    //показывает окно с должниками
-    public void shomDebetors() throws IOException {
-        Stage stage;
-        stage = (Stage) btnTheDebet.getScene().getWindow();
-        stage.close();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/debetors.fxml"));
-        Parent root = fxmlLoader.load();
-        stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Дебеторская задолженность");
-        stage.setScene(new Scene(root,1000, 700));
-        stage.show();
-    }
-
-    //показываем окно с базой клиентов
-    public void showClientBase() throws IOException {
-        Stage stage;
-        stage = (Stage) btnClientBase.getScene().getWindow();
-        stage.close();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/BaseClients.fxml"));
-        Parent root1 = fxmlLoader.load();
-        stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("База клиентов");
-        stage.setScene(new Scene(root1, 1000, 700));
-        stage.show();
-    }
-
-    //показываем окно с отчётом о доходах
-    public void showReportIncome() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Income.fxml"));
-        Stage stage = new Stage();
-        try {
-            Parent parent = loader.load();
-            stage.setTitle("MultiToolSecurity v0.1");
-            stage.setResizable(false);
-            stage.setScene(new Scene(parent, 1000, 700));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //показываем окно с календарём
-    public void showCalendar() throws IOException {
-        Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("fxml/Calendar.fxml"));
-        stage.setTitle("Календарь");
-        stage.setResizable(false);
-        stage.setScene(new Scene(root, 574, 300));
-        stage.show();
-    }
-
-    //показываем окно с калькулятором
-    public void showCalculator() throws IOException {
-        Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("fxml/Calculator.fxml"));
-        stage.setTitle("Калькулятор");
-        stage.setResizable(false);
-        stage.setScene(new Scene(root, 300, 400));
-        stage.show();
     }
 }

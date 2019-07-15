@@ -23,7 +23,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="nameDebetorLabel" prefHeight="51.0" prefWidth="185.0" textFill="#ffff8d">
+            <Label fx:id="nameDebetorLabel" prefHeight="51.0" prefWidth="538.0" textFill="#ffff8d" GridPane.columnIndex="1">
                <font>
                   <Font name="Bebas Neue Bold" size="18.0" />
                </font>

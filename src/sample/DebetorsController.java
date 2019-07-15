@@ -5,20 +5,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sample.beans.Debetors;
+import sample.connection.ConnectToWEB;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.Optional;
 
 public class DebetorsController {
@@ -64,9 +61,7 @@ public class DebetorsController {
 
     ObservableList<Debetors> listDebetors;
     Debetors debetor;
-    private AddNewDebetorWindowController addNewDebetorWindowController;
-
-    EditDialogTableController editDialogTableController = new EditDialogTableController();
+    Main main = new Main();
 
     @FXML
     void initialize() {
@@ -76,19 +71,8 @@ public class DebetorsController {
         tableDebetorsListener();
 
         addDebetorBtn.setOnAction(event -> {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/AddNewDebetorWindow.fxml"));
-                Parent parent = loader.load();
-                Stage stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setTitle("Добавить должника");
-                stage.setScene(new Scene(parent, 450, 700));
-                stage.show();
-                AddNewDebetorWindowController controller = loader.<AddNewDebetorWindowController>getController();
-                controller.setDebetorsController(this);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            AddNewDebetorWindowController controller = main.showNewWindow("fxml/AddNewDebetorWindow.fxml", "Добавить должника", 450, 700, Modality.APPLICATION_MODAL).getController();
+            controller.setDebetorsController(this);
         });
 
     }
@@ -98,32 +82,19 @@ public class DebetorsController {
         Debetors debetor = tableDebetors.getSelectionModel().getSelectedItem();
         if (debetor == null) return;
         else {
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/editDialogDebetors.fxml"));
-                Parent root = fxmlLoader.load();
-                Stage stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setTitle("Редактирование");
-                stage.setScene(new Scene(root, 600, 434));
-
-                controller = fxmlLoader.getController();
-                controller.nameDebetorLabel.setText(debetor.getNameDebetor());
-                if (!(debetor.getTotalDebt() == null) && !(debetor.getTotalDebt().equals(""))) {
-                    controller.totalDebtField.setText(debetor.getTotalDebt());
-                }
-                if (!(debetor.getLastPayment() == null) && !(debetor.getLastPayment().equals(""))) {
-                    controller.lastPaymentField.setText(debetor.getLastPayment());
-                }
-                if (!(debetor.getComments() == null) && !(debetor.getComments().equals(""))) {
-                    controller.commentsField.setText(debetor.getComments());
-                }
-
-                controller.debetor = debetor;
-
-                stage.show();
-            } catch (IOException e) {
-
+            controller = main.showNewWindow("fxml/EditDialogDebetors.fxml", "Редактирование", 600, 434, Modality.APPLICATION_MODAL).getController();
+            controller.nameDebetorLabel.setText(debetor.getName_debetor());
+            if (!(debetor.getTotal_debt() == null) && !(debetor.getTotal_debt().equals(""))) {
+                controller.totalDebtField.setText(debetor.getTotal_debt());
             }
+            if (!(debetor.getLast_payment() == null) && !(debetor.getLast_payment().equals(""))) {
+                controller.lastPaymentField.setText(debetor.getLast_payment());
+            }
+            if (!(debetor.getComments() == null) && !(debetor.getComments().equals(""))) {
+                controller.commentsField.setText(debetor.getComments());
+            }
+            controller.debetor = debetor;
+            setTotalDebtLabel();
         }
     }
 
@@ -157,9 +128,9 @@ public class DebetorsController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            int idDeleteDebetor = debetor.getId();
-            String sql = "delete from debetorstable where id= '" + idDeleteDebetor + "'";
-            editDialogTableController.connectForEditDB(sql);
+            ConnectToWEB connectToWEB = new ConnectToWEB();
+            connectToWEB.deleteConnectToWEB(debetor);
+
 
             tableDebetors.getItems().remove(debetor);
             setTotalDebtLabel();
@@ -169,35 +140,13 @@ public class DebetorsController {
     }
 
     public void addNewDebetorInDBTable(Debetors debetor) {
-        String sql = "INSERT INTO debetorstable (nameDebetor, totalDebt, lastPayment, comments, telephoneNumber, email)"
-                + " VALUES ('" + debetor.getNameDebetor() + "', '" + debetor.getTotalDebt() + "', '" + debetor.getLastPayment() + "', '" + debetor.getComments() +
-                "', '" + debetor.getTelephonNumber() + "', '" + debetor.getEmail() + "')";
-        editDialogTableController.connectForEditDB(sql);
-    }
+        ConnectToWEB connectToWEB = new ConnectToWEB();
+        connectToWEB.saveConnectToWEB(debetor);
+        }
 
     public void listOfCollumsDebetors() {
-        try {
-            listDebetors = FXCollections.observableArrayList();
-            ConnectionToDB connect = new ConnectionToDB();
-            connect.connectionToDBnote();
-            Statement statement = connect.cnt.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from debetorstable");
-
-            while (resultSet.next()) {
-                Debetors debetor = new Debetors();
-                debetor.setId(resultSet.getInt("id"));
-                debetor.setNameDebetor(resultSet.getString("nameDebetor"));
-                debetor.setTotalDebt(resultSet.getString("totalDebt"));
-                debetor.setLastPayment(resultSet.getString("lastPayment"));
-                debetor.setComments(resultSet.getString("comments"));
-                debetor.setTelephonNumber(resultSet.getString("telephoneNumber"));
-                debetor.setEmail(resultSet.getString("email"));
-                listDebetors.add(debetor);
-            }
-            connect.cnt.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ConnectToWEB connectToWEB = new ConnectToWEB();
+        listDebetors = FXCollections.observableArrayList(connectToWEB.getConnectToWEB("debetors"));
     }
 
     public void insertDebetorsTable() {
@@ -215,8 +164,8 @@ public class DebetorsController {
         String temp;
         if (listDebetors.size() > 0) {
             for (int x = 0; x < listDebetors.size(); x++) {
-                temp = listDebetors.get(x).getTotalDebt();
-                if (!(temp.equals(""))) {
+                temp = listDebetors.get(x).getTotal_debt();
+                if (!(temp.equals("")) && temp != null) {
                     //добавить проверку на содержание числа в поле
                     totalPrice = totalPrice + Integer.parseInt(temp);
                 } else {
@@ -227,15 +176,10 @@ public class DebetorsController {
         totalDebtLabel.setText(String.valueOf(totalPrice));
     }
 
-    public void hideWindowDebetors() throws IOException {
+    public void hideWindowDebetors() {
         Stage stage = (Stage) backToSampleWindow.getScene().getWindow();
         stage.close();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/sample.fxml"));
-        Parent root = loader.load();
-        stage.setResizable(false);
-        stage.setTitle("MultiToolSecurity v0.1");
-        stage.setScene(new Scene(root, 1000, 700));
-        stage.show();
+        main.showNewWindow("fxml/Sample.fxml", "MultiToolSecurity v0.1", 1000, 700, Modality.NONE);
     }
 
     public void unloadingReportDebetors() throws IOException {
@@ -251,7 +195,7 @@ public class DebetorsController {
             writer.write("Список должников: " + System.lineSeparator());
 
             for (Debetors debetor : listDebetors) {
-                writer.write(debetor.getNameDebetor() + " - " + debetor.getTotalDebt() + " рублей." + System.lineSeparator());
+                writer.write(debetor.getName_debetor() + " - " + debetor.getTotal_debt() + " рублей." + System.lineSeparator());
             }
 
             writer.close();
