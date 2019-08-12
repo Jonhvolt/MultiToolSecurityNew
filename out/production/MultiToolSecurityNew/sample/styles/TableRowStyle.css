@@ -1,0 +1,7 @@
+.table-row-cell {
+    -fx-background-color: purple;
+}
+
+.table-row-cell .text {
+    -fx-fill: white ;
+}
