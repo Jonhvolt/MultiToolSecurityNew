@@ -3,11 +3,13 @@ package sample;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.stage.Stage;
 import sample.beans.Client;
 import sample.connection.ConnectToWEB;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -69,6 +71,16 @@ public class EditDialogTableController {
         saveBtnEditTable.setOnAction(actionEvent -> {
             editClient(editClientItem());
             Stage stage = (Stage) saveBtnEditTable.getScene().getWindow();
+
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/BaseClients.fxml"));
+                loader.load();
+                baseClient = loader.getController();
+
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+
             stage.close();
         });
     }

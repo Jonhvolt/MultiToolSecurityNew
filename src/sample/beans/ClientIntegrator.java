@@ -13,6 +13,7 @@ public class ClientIntegrator {
     private String sim_cards;
     private String number_clients;
     private String notes;
+   // private boolean sign_contract;
 
     public ClientIntegrator(Client client) {
         this.id = client.getId();
@@ -26,6 +27,7 @@ public class ClientIntegrator {
             this.sim_cards = client.getSim_cards();
             this.number_clients = client.getNumber_clients();
             this.notes = client.getNotes();
+           // this.sign_contract = client.getSign_contract();
     }
 
     public int getId() {
@@ -115,4 +117,16 @@ public class ClientIntegrator {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
+
+    /*
+    public boolean isSign_contract() {
+        return sign_contract;
+    }
+
+    public void setSign_contract(boolean sign_contract) {
+        this.sign_contract = sign_contract;
+    }
+     */
+
 }

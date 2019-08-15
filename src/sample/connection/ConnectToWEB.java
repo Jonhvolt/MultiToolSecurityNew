@@ -118,7 +118,7 @@ public class ConnectToWEB implements Serializable {
 
         HttpClient httpClient = HttpClientBuilder.create().build();
         try {
-            HttpPost     post          = new HttpPost(url);
+            HttpPost post = new HttpPost(url);
             post.setEntity(postingString);
             httpClient.execute(post);
         } catch (UnsupportedEncodingException e) {

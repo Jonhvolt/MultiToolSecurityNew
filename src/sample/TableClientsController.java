@@ -98,7 +98,7 @@ public class TableClientsController {
     @FXML
     void initialize() {
         tableObject.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        initListeners(client);
+        initListeners();
         reloadTableClients();
         filtredSearch();
     }
@@ -108,6 +108,12 @@ public class TableClientsController {
         insertTable(); //заполняет таблицу данными
         setTotalLabel();
         tableObject.setItems(listObjectInDB); //добавляем колонки с информацией в таблицу
+    }
+
+    //берёт данные из БД и создаёт List с данными
+    public void listOfCollums() {
+        ConnectToWEB connectToWEB = new ConnectToWEB();
+        listObjectInDB = FXCollections.observableArrayList(connectToWEB.getConnectToWEB("clients"));
     }
 
     public void insertTable() {
@@ -173,12 +179,6 @@ public class TableClientsController {
         }
     }
 
-    //берёт данные из БД и создаёт List с данными
-    public void listOfCollums() {
-        ConnectToWEB connectToWEB = new ConnectToWEB();
-        listObjectInDB = FXCollections.observableArrayList(connectToWEB.getConnectToWEB("clients"));
-    }
-
     //создаём окно редактирования
     public void createDialogStage(String title, int width, int height, Client client) throws IOException {
         EditDialogTableController controller = main.showNewWindow("fxml/EditDialogTable.fxml", title, width, height, Modality.APPLICATION_MODAL).getController();
@@ -186,7 +186,7 @@ public class TableClientsController {
     }
 
     //слушает клики мышью в таблице по выбранному полю
-    private void initListeners(Client client) {
+    private void initListeners() {
         tableObject.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {

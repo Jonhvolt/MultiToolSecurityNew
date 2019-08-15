@@ -14,6 +14,7 @@ public class Client {
     private SimpleStringProperty sim_cards;
     private SimpleStringProperty number_clients;
     private SimpleStringProperty notes;
+    //private boolean sign_contract;
 
     public Client(int id, String name, String address, String contact_user, String telephone_number, String email, String area_security, String price_to_month, String sim_cards, String number_clients , String notes){
         this.id = id;
@@ -27,6 +28,7 @@ public class Client {
         this.sim_cards = new SimpleStringProperty(sim_cards);
         this.number_clients = new SimpleStringProperty(number_clients);
         this.notes = new SimpleStringProperty(notes);
+        //this.sign_contract = sign_contract;
     }
 
     public Client(String name, String address, String contact_user, String telephone_number, String email, String area_security, String price_to_month, String sim_cards, String number_clients , String notes){
@@ -40,7 +42,7 @@ public class Client {
         this.sim_cards = new SimpleStringProperty(sim_cards);
         this.number_clients = new SimpleStringProperty(number_clients);
         this.notes = new SimpleStringProperty(notes);
-
+        //this.sign_contract = sign_contract;
     }
 
     public Client() {
@@ -143,6 +145,17 @@ public class Client {
     public void setNotes(String notes) {
         this.notes.set(notes);
     }
+
+    /*
+    public boolean getSign_contract() {
+        return sign_contract;
+    }
+
+    public void setSign_contract(boolean sign_contract) {
+        this.sign_contract = sign_contract;
+    }
+     */
+
 
     public SimpleStringProperty getterName() {
         return name;
