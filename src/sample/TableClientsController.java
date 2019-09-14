@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.beans.Client;
@@ -89,6 +90,9 @@ public class TableClientsController {
 
     @FXML
     private JFXTextField searchJFXTextField;
+
+    @FXML
+    private Pane panelForTotalLabel;
 
     Client client;
     ObservableList<Client> listObjectInDB;
@@ -182,7 +186,9 @@ public class TableClientsController {
     //создаём окно редактирования
     public void createDialogStage(String title, int width, int height, Client client) throws IOException {
         EditDialogTableController controller = main.showNewWindow("fxml/EditDialogTable.fxml", title, width, height, Modality.APPLICATION_MODAL).getController();
-        if (client != null) controller.setClient(client);
+
+        stage = (Stage) btnBack.getScene().getWindow();
+        if (client != null) controller.setClient(client, this);
     }
 
     //слушает клики мышью в таблице по выбранному полю
@@ -256,4 +262,5 @@ public class TableClientsController {
             tableObject.setItems(subentries);
         });
     }
+
 }

@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #2A2E37;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.TableClientsController">
@@ -44,13 +45,17 @@
             <Font name="Bauhaus 93" size="15.0" />
          </font>
       </JFXButton>
-      <Label layoutX="5.0" layoutY="589.0" text="Общая сумма:" textFill="#ffff8d" />
-      <Label fx:id="totalLabel" layoutX="5.0" layoutY="612.0" prefHeight="17.0" prefWidth="92.0" textFill="#ffff8d" />
       <Label fx:id="labelCount" layoutX="5.0" layoutY="658.0" prefHeight="28.0" prefWidth="92.0" textFill="#ffff8d">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
       <JFXTextField fx:id="searchJFXTextField" focusColor="#ffff8d" layoutX="12.0" layoutY="14.0" prefHeight="25.0" prefWidth="102.0" promptText="Поиск" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="898.0" AnchorPane.topAnchor="0.0" />
+      <Pane fx:id="panelForTotalLabel" layoutX="1.0" layoutY="488.0" prefHeight="48.0" prefWidth="92.0">
+         <children>
+            <Label text="Общая сумма:" textFill="#ffff8d" />
+            <Label fx:id="totalLabel" layoutY="25.0" prefHeight="17.0" prefWidth="92.0" textFill="#ffff8d" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

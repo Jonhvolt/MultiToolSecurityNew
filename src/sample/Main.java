@@ -1,12 +1,14 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.embed.swing.JFXPanel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class Main extends Application {
@@ -38,5 +40,14 @@ public class Main extends Application {
             System.out.println(e);
         }
         return fxmlLoader;
+    }
+
+    public JFXPanel createPanel(String title, int width, int height) {
+        JFXPanel panel = new JFXPanel();
+        panel.setName(title);
+        Dimension dimension = new Dimension(width, height);
+        panel.setSize(dimension);
+
+        return panel;
     }
 }

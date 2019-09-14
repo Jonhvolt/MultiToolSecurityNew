@@ -3,13 +3,11 @@ package sample;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.stage.Stage;
 import sample.beans.Client;
 import sample.connection.ConnectToWEB;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -60,6 +58,7 @@ public class EditDialogTableController {
     Client client;
     ConnectToWEB connectToWEB = new ConnectToWEB();
     private TableClientsController baseClient;
+    private Stage baseClientStage;
 
     @FXML
     void initialize() {
@@ -71,17 +70,9 @@ public class EditDialogTableController {
         saveBtnEditTable.setOnAction(actionEvent -> {
             editClient(editClientItem());
             Stage stage = (Stage) saveBtnEditTable.getScene().getWindow();
-
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/BaseClients.fxml"));
-                loader.load();
-                baseClient = loader.getController();
-
-            } catch (IOException e) {
-                System.out.println(e);
-            }
-
             stage.close();
+
+            baseClient.setTotalLabel();
         });
     }
 
@@ -96,7 +87,7 @@ public class EditDialogTableController {
     }
 
     //заполняет данными поля в окне редактирования, при нажатии кнопки "Изменить"
-    public void setClient(Client client) {
+    public void setClient(Client client, TableClientsController tableClientController) {
             if (client == null) {
                 return;
             }
@@ -112,6 +103,7 @@ public class EditDialogTableController {
             numberClientsField.setText(this.client.getNumber_clients());
             notesField.setText(this.client.getNotes());
 
+            baseClient = tableClientController;
     }
 
     //создаёт объект типа Client с данными отредактированными пользователем после нажатия кнопки Изменить
