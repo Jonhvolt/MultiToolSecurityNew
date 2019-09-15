@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import sample.connection.ConnectToWEB;
 import sample.beans.Debetors;
+import sample.controllers.DebetorsTableController;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -49,6 +50,7 @@ public class EditDialogDebetorsController {
     public double totalDebtDouble;
 
     public Debetors debetor;
+    public DebetorsTableController debetorsTableController;
 
     @FXML
     void initialize() {
@@ -65,6 +67,9 @@ public class EditDialogDebetorsController {
         this.debetor.setComments(commentsField.getText());
         ConnectToWEB connectToWEB = new ConnectToWEB();
         connectToWEB.saveConnectToWEB(debetor);
+
+        debetorsTableController.setTotalDebtLabel();
+
         stage.close();
     }
 

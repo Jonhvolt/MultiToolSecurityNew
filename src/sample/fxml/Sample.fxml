@@ -2,99 +2,404 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #2A2E37;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.SampleController">
    <children>
-      <Pane layoutY="173.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFF8D;" AnchorPane.bottomAnchor="550.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Label prefHeight="26.0" prefWidth="300.0" style="-fx-background-color: #FFFF8D;" text="Multi Tool Security" textFill="#2a2e37">
+         <font>
+            <Font name="Bauhaus 93" size="36.0" />
+         </font>
+      </Label>
+      <Pane fx:id="theNotePane" layoutX="571.0" layoutY="84.0" prefHeight="435.0" prefWidth="421.0">
          <children>
-            <Label layoutX="331.0" layoutY="23.0" prefHeight="117.0" prefWidth="300.0" style="-fx-background-color: #FFFF8D;" text="Multi Tool Security" textFill="#2a2e37">
+            <Label fx:id="labelTodayTheNote" prefHeight="38.0" prefWidth="218.0" textFill="#ffff8d" visible="false" wrapText="true">
                <font>
-                  <Font name="Bauhaus 93" size="36.0" />
+                  <Font name="Berlin Sans FB Demi Bold" size="16.0" />
                </font>
             </Label>
-            <JFXDatePicker fx:id="datePicker" defaultColor="#2a2e37" layoutX="829.0" layoutY="115.0" promptText="Выберите дату" />
+            <Label fx:id="simpleTodayTheNote" alignment="TOP_LEFT" prefHeight="435.0" prefWidth="227.0" textFill="#ffff8d" visible="false" wrapText="true">
+               <font>
+                  <Font name="Bauhaus 93" size="16.0" />
+               </font>
+            </Label>
+            <TitledPane fx:id="userTheNoteOfSample" expanded="false" layoutX="223.0" maxHeight="260.0" maxWidth="503.0" minHeight="234.0" minWidth="102.0" prefHeight="234.0" prefWidth="192.0" text="Создать заметку" textFill="#46423d" wrapText="true">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" visible="false">
+                     <children>
+                        <TextArea fx:id="userInputTextArea" layoutX="19.6" layoutY="19.6" prefHeight="175.0" prefWidth="219.0" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font name="Serif Regular" size="12.0" />
+                           </font>
+                           <effect>
+                              <Glow>
+                                 <input>
+                                    <DropShadow />
+                                 </input>
+                              </Glow>
+                           </effect>
+                        </TextArea>
+                        <Button fx:id="userTheNoteSaveBtn" alignment="BOTTOM_CENTER" layoutX="120.0" layoutY="192.0" mnemonicParsing="false" onAction="#createTheNoteStartWindow" prefHeight="10.0" prefWidth="60.0" text="Сохранить" textAlignment="CENTER">
+                           <font>
+                              <Font name="Serif Regular" size="10.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <effect>
+                        <Blend />
+                     </effect>
+                  </AnchorPane>
+               </content>
+               <font>
+                  <Font name="Serif Regular" size="12.0" />
+               </font>
+            </TitledPane>
          </children>
       </Pane>
-      <JFXButton fx:id="btnClientBase" layoutY="207.0" prefHeight="40.0" prefWidth="170.0" text="База клиентов" textFill="#ffff8d" AnchorPane.bottomAnchor="400.0" AnchorPane.leftAnchor="0.0">
-         <font>
-            <Font name="Bauhaus 93" size="20.0" />
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="btnIncome" layoutX="14.0" layoutY="265.0" prefHeight="40.0" prefWidth="170.0" text="Доходы" textFill="#ffff8d" AnchorPane.bottomAnchor="340.0" AnchorPane.leftAnchor="0.0">
-         <font>
-            <Font name="Bauhaus 93" size="20.0" />
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="btnInWork" layoutX="14.0" layoutY="344.0" prefHeight="40.0" prefWidth="170.0" text="В работе" textFill="#ffff8d" AnchorPane.bottomAnchor="280.0" AnchorPane.leftAnchor="0.0">
-         <font>
-            <Font name="Bauhaus 93" size="20.0" />
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="btnTheDebet" layoutX="14.0" layoutY="409.0" prefHeight="40.0" prefWidth="170.0" text="Дебеторка" textFill="#ffff8d" AnchorPane.bottomAnchor="220.0" AnchorPane.leftAnchor="0.0">
-         <font>
-            <Font name="Bauhaus 93" size="20.0" />
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="btnCalc" layoutX="14.0" layoutY="497.0" prefHeight="40.0" prefWidth="170.0" text="Калькулятор" textFill="#ffff8d" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="0.0">
-         <font>
-            <Font name="Bauhaus 93" size="20.0" />
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="btnCalendar" layoutX="14.0" layoutY="560.0" prefHeight="40.0" prefWidth="170.0" text="Календарь" textFill="#ffff8d" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0">
-         <font>
-            <Font name="Bauhaus 93" size="20.0" />
-         </font>
-      </JFXButton>
-      <TitledPane fx:id="userTheNoteOfSample" animated="false" expanded="false" layoutX="779.0" layoutY="157.0" maxHeight="260.0" maxWidth="253.0" minHeight="260.0" minWidth="221.0" prefHeight="260.0" prefWidth="221.0" text="Создать заметку" textFill="#46423d" wrapText="true">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" visible="false">
+      <Pane fx:id="buttonsPanel" layoutX="-1.0" layoutY="44.0" prefHeight="40.0" prefWidth="1000.0">
+         <children>
+            <JFXButton fx:id="btnClientBase" layoutX="8.0" prefHeight="40.0" prefWidth="170.0" text="База клиентов" textFill="#ffff8d">
+               <font>
+                  <Font name="Bauhaus 93" size="20.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btnIncome" layoutX="156.0" prefHeight="40.0" prefWidth="170.0" text="Доходы" textFill="#ffff8d">
+               <font>
+                  <Font name="Bauhaus 93" size="20.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btnTheDebet" layoutX="326.0" prefHeight="40.0" prefWidth="170.0" text="Дебеторка" textFill="#ffff8d">
+               <font>
+                  <Font name="Bauhaus 93" size="20.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btnInWork" disable="true" layoutX="490.0" layoutY="1.0" prefHeight="40.0" prefWidth="170.0" text="В работе" textFill="#ffff8d">
+               <font>
+                  <Font name="Bauhaus 93" size="20.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btnCalc" layoutX="643.0" layoutY="1.0" prefHeight="40.0" prefWidth="170.0" text="Калькулятор" textFill="#ffff8d">
+               <font>
+                  <Font name="Bauhaus 93" size="20.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btnCalendar" layoutX="797.0" prefHeight="40.0" prefWidth="170.0" text="Календарь" textFill="#ffff8d">
+               <font>
+                  <Font name="Bauhaus 93" size="20.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </Pane>
+      <Pane fx:id="baseClientsPane" layoutX="-5.0" layoutY="84.0" prefHeight="700.0" prefWidth="1000.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="84.0">
+         <children>
+            <JFXButton fx:id="addBtn" defaultButton="true" prefHeight="17.0" prefWidth="102.0" text="Добавить" textFill="#ffff8d">
+               <font>
+                  <Font name="Bauhaus 93" size="15.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="editBtn" layoutX="102.0" prefHeight="25.0" prefWidth="92.0" text="Изменить" textFill="#ffff8d">
+               <font>
+                  <Font name="Bauhaus 93" size="15.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="delBtn" layoutX="194.0" prefHeight="25.0" prefWidth="102.0" text="Удалить" textFill="#ffff8d">
+               <font>
+                  <Font name="Bauhaus 93" size="15.0" />
+               </font>
+            </JFXButton>
+            <Label fx:id="labelCount" layoutX="509.0" layoutY="5.0" prefHeight="19.0" prefWidth="109.0" textFill="#ffff8d">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="searchJFXTextField" focusColor="#ffff8d" layoutX="858.0" layoutY="2.0" prefHeight="19.0" prefWidth="102.0" promptText="Поиск" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" />
+            <Pane fx:id="panelForTotalLabel" layoutX="636.0" layoutY="5.0" prefHeight="19.0" prefWidth="211.0">
                <children>
-                  <Button fx:id="userTheNoteSaveBtn" alignment="BOTTOM_CENTER" layoutX="156.0" layoutY="198.6" mnemonicParsing="false" onAction="#createTheNoteStartWindow" prefHeight="38.0" prefWidth="60.0" text="Сохранить" textAlignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="189.0">
-                     <font>
-                        <Font name="Serif Regular" size="10.0" />
-                     </font>
-                  </Button>
-                  <TextArea fx:id="userInputTextArea" layoutX="19.6" layoutY="19.6" prefHeight="175.0" prefWidth="219.0" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <font>
-                        <Font name="Serif Regular" size="12.0" />
-                     </font>
-                     <effect>
-                        <Glow>
-                           <input>
-                              <DropShadow />
-                           </input>
-                        </Glow>
-                     </effect>
-                  </TextArea>
+                  <Label text="Общая сумма:" textFill="#ffff8d" />
+                  <Label fx:id="totalLabel" layoutX="95.0" layoutY="4.0" prefHeight="17.0" prefWidth="92.0" textFill="#ffff8d" />
                </children>
-               <effect>
-                  <Blend />
-               </effect>
-            </AnchorPane>
-         </content>
-         <font>
-            <Font name="Serif Regular" size="12.0" />
-         </font>
-      </TitledPane>
-      <Label fx:id="labelTodayTheNote" layoutX="534.0" layoutY="157.0" prefHeight="19.0" prefWidth="192.0" textFill="#ffff8d" wrapText="true">
-         <font>
-            <Font name="Berlin Sans FB Demi Bold" size="16.0" />
-         </font>
-      </Label>
-      <Label fx:id="simpleTodayTheNote" alignment="TOP_LEFT" layoutX="500.0" layoutY="184.0" prefHeight="276.0" prefWidth="265.0" textFill="#ffff8d" wrapText="true">
-         <font>
-            <Font name="Bauhaus 93" size="16.0" />
-         </font>
-      </Label>
+            </Pane>
+            <TableView fx:id="tableObject" layoutY="30.0" prefHeight="595.0" prefWidth="1020.0" tableMenuButtonVisible="true">
+               <columns>
+                  <TableColumn fx:id="collumNameClient" maxWidth="1.7976931348623157E308" prefWidth="162.0" text="Название" />
+                  <TableColumn fx:id="collumAddressClient" minWidth="0.0" prefWidth="186.0" text="Адрес" />
+                  <TableColumn fx:id="collumTelephoneNumber" prefWidth="134.0" text="Телефон" />
+                  <TableColumn fx:id="collumContactUser" prefWidth="145.0" text="Контактное лицо" />
+                  <TableColumn fx:id="collumAreaSecurity" prefWidth="149.0" text="Район охраны" />
+                  <TableColumn fx:id="collumPriceToMonth" prefWidth="130.0" text="Сумма ежемесячная" />
+                  <TableColumn fx:id="collumEmailClient" prefWidth="206.0" text="Почта" />
+                  <TableColumn fx:id="collumSimCards" prefWidth="75.0" text="Сим-карты" />
+                  <TableColumn fx:id="collumNumberClients" prefWidth="75.0" text="Номер объекта" />
+                  <TableColumn fx:id="collumTheNotes" prefWidth="250.0" text="Примечания" />
+               </columns>
+            </TableView>
+            <JFXButton fx:id="btnCloseTableClientsPanel" layoutX="971.0" prefHeight="9.0" prefWidth="25.0" text="X" textFill="#ffff8d" />
+         </children>
+      </Pane>
+      <Pane fx:id="incomePanel" layoutY="76.0" prefHeight="616.0" prefWidth="1000.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="84.0">
+         <children>
+            <Pane layoutX="-3.0" layoutY="35.0" prefHeight="276.0" prefWidth="427.0">
+               <children>
+                  <GridPane layoutX="10.0" layoutY="49.0" prefHeight="88.0" prefWidth="408.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="306.0" minWidth="10.0" prefWidth="180.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="215.0" minWidth="10.0" prefWidth="197.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label prefHeight="24.0" prefWidth="179.0" text="Общая сумма начислений:" textFill="#ffff8d">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="20.0" prefWidth="152.0" text="Безналичный расчёт:" textFill="#ffff8d" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="17.0" prefWidth="118.0" text="Наличный расчёт:" textFill="#ffff8d" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <JFXTextField fx:id="accruedСommonField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="1" />
+                        <JFXTextField fx:id="nonСashAccruedField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <JFXTextField fx:id="cashAccruedField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     </children>
+                  </GridPane>
+                  <GridPane layoutX="10.0" layoutY="168.0" prefHeight="96.0" prefWidth="408.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label prefHeight="24.0" prefWidth="179.0" text="Общая сумма поступлений:" textFill="#ffff8d">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="20.0" prefWidth="152.0" text="Поступления на Р/C:" textFill="#ffff8d" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="20.0" prefWidth="167.0" text="Поступлeния наличными:" textFill="#ffff8d" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <JFXTextField fx:id="arrivedField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="1" />
+                        <JFXTextField fx:id="arrivedNonCashField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <JFXTextField fx:id="arrivedCashField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     </children>
+                  </GridPane>
+                  <Label layoutX="133.0" layoutY="22.0" prefHeight="27.0" prefWidth="111.0" text="Начисления:" textFill="#ffff8d">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="127.0" layoutY="141.0" prefHeight="27.0" prefWidth="111.0" text="Поступления:" textFill="#ffff8d">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane layoutY="348.0" prefHeight="135.0" prefWidth="421.0">
+               <children>
+                  <GridPane layoutY="14.0" prefHeight="126.0" prefWidth="421.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label prefHeight="20.0" prefWidth="103.0" text="Принято:" textFill="#ffff8d">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="20.0" prefWidth="62.0" text="Снято:" textFill="#ffff8d" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" prefHeight="20.0" prefWidth="127.0" text="на сумму:" textFill="#ffff8d" GridPane.columnIndex="2">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" prefHeight="20.0" prefWidth="127.0" text="на сумму:" textFill="#ffff8d" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" prefHeight="20.0" prefWidth="127.0" text="Итог:" textFill="#ffff8d" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <JFXTextField fx:id="clientsAcceptedField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="1" />
+                        <JFXTextField fx:id="clientsGoneField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <JFXTextField fx:id="clientsAcceptedSumField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="3" />
+                        <JFXTextField fx:id="clientsGoneSumField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <Label fx:id="totalSumcCientsField" prefHeight="38.0" prefWidth="101.0" textFill="#ffff8d" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </GridPane>
+               </children>
+            </Pane>
+            <Pane layoutX="467.0" layoutY="45.0" prefHeight="428.0" prefWidth="488.0">
+               <children>
+                  <Label layoutX="169.0" layoutY="14.0" prefHeight="27.0" prefWidth="159.0" text="Зарплатный фонд:" textFill="#ffff8d">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <GridPane layoutX="14.0" layoutY="41.0" prefHeight="373.0" prefWidth="471.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label alignment="CENTER" prefHeight="27.0" prefWidth="230.0" text="ФИО:" textFill="#ffff8d">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" prefHeight="27.0" prefWidth="227.0" text="Сумма:" textFill="#ffff8d" GridPane.columnIndex="1">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <JFXTextField fx:id="oneFIOField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.rowIndex="1" />
+                        <JFXTextField fx:id="twoFIOField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.rowIndex="2" />
+                        <JFXTextField fx:id="threeFIOField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.rowIndex="3" />
+                        <JFXTextField fx:id="fourFIOField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.rowIndex="4" />
+                        <JFXTextField fx:id="oneSalaryField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <JFXTextField fx:id="twoSalaryField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <JFXTextField fx:id="threeSalaryField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <JFXTextField fx:id="fourSalaryField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <JFXTextField fx:id="fiveSalaryField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <JFXTextField fx:id="fiveFIOField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.rowIndex="5" />
+                        <JFXTextField fx:id="sixSalaryField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <JFXTextField fx:id="sixFIOField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.rowIndex="6" />
+                        <JFXTextField fx:id="sevenSalaryField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <JFXTextField fx:id="sevenFIOField" focusColor="WHITE" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="#ffff8d" GridPane.rowIndex="7" />
+                        <Label alignment="CENTER" prefHeight="27.0" prefWidth="228.0" text="Общая сумма:" textFill="#ffff8d" GridPane.rowIndex="8">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="allSalaryTheSum" prefHeight="39.0" prefWidth="233.0" textFill="#ffff8d" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </GridPane>
+               </children>
+            </Pane>
+            <JFXButton fx:id="reportBtn" layoutX="717.0" layoutY="562.0" prefHeight="48.0" prefWidth="276.0" text="Сформировать отчёт" textFill="#ffff8d">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </JFXButton>
+            <JFXDatePicker fx:id="dateStop" defaultColor="#ffff8d" layoutX="415.0" layoutY="10.0" promptText="Выберите дату" stylesheets="@../styles/FontColorForTextField.css" />
+            <Label layoutX="296.0" layoutY="10.0" text="Конец периода:" textFill="#ffff8d">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <JFXTextArea fx:id="theNoteOfReportArea" focusColor="WHITE" layoutY="484.0" prefHeight="126.0" prefWidth="368.0" style="-fx-background-color: #2F4F4F;" stylesheets="@../styles/FontColorForTextField.css" unFocusColor="WHITE" />
+            <JFXButton fx:id="assemblyWorkBtn" layoutX="510.0" layoutY="567.0" prefHeight="39.0" prefWidth="192.0" text="Монтажные работы" textFill="#ffff8d">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <Label layoutY="10.0" text="Начало периода:" textFill="#ffff8d">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutY="321.0" prefHeight="27.0" prefWidth="312.0" text="Итог по объектам на конец месяца:" textFill="#ffff8d">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <JFXDatePicker fx:id="dateStart" defaultColor="#ffff8d" layoutX="125.0" layoutY="10.0" promptText="Выберите дату" stylesheets="@../styles/FontColorForTextField.css" />
+            <JFXButton fx:id="btnCloseIncomePanel" layoutX="971.0" prefHeight="9.0" prefWidth="25.0" text="X" textFill="#ffff8d" />
+         </children>
+      </Pane>
+      <Pane fx:id="debetorsTablePanel" prefHeight="700.0" prefWidth="1000.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="84.0">
+         <children>
+            <TableView fx:id="tableDebetors" layoutY="30.0" prefHeight="595.0" prefWidth="1020.0" tableMenuButtonVisible="true">
+               <columns>
+                  <TableColumn fx:id="nameDebetorCollumn" prefWidth="126.0" text="Название объекта" />
+                  <TableColumn fx:id="totalDebtCollumn" prefWidth="99.0" text="Общий долг" />
+                  <TableColumn fx:id="lastPaymentCollumn" minWidth="0.0" prefWidth="149.0" text="Последняя оплата" />
+                  <TableColumn fx:id="commentsCollumn" prefWidth="444.0" text="Комментарии" />
+                  <TableColumn fx:id="telephoneDebetorCollumn" prefWidth="182.0" text="Телефон" />
+                  <TableColumn fx:id="emailDebetorCollumn" prefWidth="199.0" text="Почта" />
+               </columns>
+            </TableView>
+            <Label fx:id="totalDebtLabel" layoutX="698.0" layoutY="4.0" prefHeight="17.0" prefWidth="91.0" textFill="#ffff8d">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="573.0" layoutY="6.0" prefHeight="17.0" prefWidth="125.0" text="Общая сумма долга:" textFill="#ffff8d" />
+            <JFXButton fx:id="addDebetorBtn" layoutX="14.0" layoutY="2.0" text="Добавить" textFill="#ffff8d" />
+            <JFXButton fx:id="editDebetorBtn" layoutX="92.0" layoutY="2.0" text="Изменить" textFill="#ffff8d" />
+            <JFXButton fx:id="btnCloseTableDebetorsPanel" layoutX="971.0" prefHeight="9.0" prefWidth="25.0" text="X" textFill="#ffff8d" />
+            <JFXButton fx:id="deleteDebetorBtn" layoutX="199.0" layoutY="2.0" text="Удалить" textFill="#ffff8d" />
+            <JFXButton fx:id="unloadingBtn" layoutX="370.0" layoutY="2.0" text="Сделать выгрузку" textFill="#ffff8d" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

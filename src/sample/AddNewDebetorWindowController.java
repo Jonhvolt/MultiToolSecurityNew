@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import sample.beans.Client;
 import sample.connection.ConnectToWEB;
 import sample.beans.Debetors;
+import sample.controllers.DebetorsTableController;
 
 import java.io.IOException;
 
@@ -35,8 +36,7 @@ public class AddNewDebetorWindowController {
 
     private ObservableList<Client> listObjectInDB;
     Debetors debetor;
-    //DebetorsController debetorsController = new DebetorsController();
-    private DebetorsController debetorsController;
+    private DebetorsTableController debetorsController;
 
     @FXML
     void initialize() {
@@ -78,7 +78,7 @@ public class AddNewDebetorWindowController {
         stage.close();
     }
 
-    public void setDebetorsController(DebetorsController debetorsController) {
+    public void setDebetorsController(DebetorsTableController debetorsController) {
         this.debetorsController = debetorsController;
     }
 

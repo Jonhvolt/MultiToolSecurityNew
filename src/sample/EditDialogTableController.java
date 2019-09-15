@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.stage.Stage;
 import sample.beans.Client;
 import sample.connection.ConnectToWEB;
+import sample.controllers.ClientsTableController;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -57,8 +58,7 @@ public class EditDialogTableController {
 
     Client client;
     ConnectToWEB connectToWEB = new ConnectToWEB();
-    private TableClientsController baseClient;
-    private Stage baseClientStage;
+    private ClientsTableController clientsTableController;
 
     @FXML
     void initialize() {
@@ -68,11 +68,11 @@ public class EditDialogTableController {
         });
 
         saveBtnEditTable.setOnAction(actionEvent -> {
-            editClient(editClientItem());
             Stage stage = (Stage) saveBtnEditTable.getScene().getWindow();
+            editClient(editClientItem());
             stage.close();
 
-            baseClient.setTotalLabel();
+            clientsTableController.setTotalLabel();
         });
     }
 
@@ -81,13 +81,13 @@ public class EditDialogTableController {
         saveBtnEditTable.setOnAction(actionEvent -> {
             Stage stage = (Stage) saveBtnEditTable.getScene().getWindow();
             addClient();
-            this.baseClient.reloadTableClients();
+            clientsTableController.reloadTableClients();
             stage.close();
         });
     }
 
     //заполняет данными поля в окне редактирования, при нажатии кнопки "Изменить"
-    public void setClient(Client client, TableClientsController tableClientController) {
+    public void setClient(Client client, ClientsTableController tableClientController) {
             if (client == null) {
                 return;
             }
@@ -103,7 +103,7 @@ public class EditDialogTableController {
             numberClientsField.setText(this.client.getNumber_clients());
             notesField.setText(this.client.getNotes());
 
-            baseClient = tableClientController;
+            this.clientsTableController = tableClientController;
     }
 
     //создаёт объект типа Client с данными отредактированными пользователем после нажатия кнопки Изменить
@@ -142,7 +142,11 @@ public class EditDialogTableController {
         connectToWEB.saveConnectToWEB(client);
     }
 
-    public void setBaseClientController(TableClientsController baseClient) {
-        this.baseClient = baseClient;
+//    public void setBaseClientController(TableClientsController baseClient) {
+//        this.baseClient = baseClient;
+//    }
+
+    public void setBaseClientController(ClientsTableController clientController) {
+        this.clientsTableController = clientController;
     }
 }

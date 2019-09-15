@@ -1,107 +1,37 @@
-package sample;
+package sample.controllers;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextField;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
+import sample.EditDialogTableController;
+import sample.Main;
+import sample.SampleController;
 import sample.beans.Client;
 import sample.connection.ConnectToWEB;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
-public class TableClientsController {
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
-
-    @FXML
-    private AnchorPane hidePane;
-
-    @FXML
-    public TableView<Client> tableObject;
-
-    @FXML
-    private TableColumn<Client, String> collumNameClient;
-
-    @FXML
-    private TableColumn<Client, String> collumAddressClient;
-
-    @FXML
-    private TableColumn<Client, String> collumTelephoneNumber;
-
-    @FXML
-    private TableColumn<Client, String> collumContactUser;
-
-    @FXML
-    private TableColumn<Client, String> collumAreaSecurity;
-
-    @FXML
-    private TableColumn<Client, String> collumPriceToMonth;
-
-    @FXML
-    private TableColumn<Client, String> collumEmailClient;
-
-    @FXML
-    private TableColumn<Client, String> collumSimCards;
-
-    @FXML
-    private TableColumn<Client, String> collumNumberClients;
-
-    @FXML
-    private TableColumn<Client, String> collumTheNotes;
-
-    @FXML
-    private JFXButton btnBack;
-
-    @FXML
-    private JFXButton addBtn;
-
-    @FXML
-    private JFXButton editBtn;
-
-    @FXML
-    private JFXButton delBtn;
-
-    @FXML
-    private Label labelCount;
-
-    @FXML
-    private Label totalLabel;
-
-    @FXML
-    private TextField searchField;
-
-    @FXML
-    private JFXTextField searchJFXTextField;
-
-    @FXML
-    private Pane panelForTotalLabel;
-
+public class ClientsTableController {
     Client client;
     ObservableList<Client> listObjectInDB;
-    Stage stage;
     Main main = new Main();
 
-    @FXML
-    void initialize() {
-        tableObject.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+    private SampleController sampleController;
+
+    public ClientsTableController(SampleController sampleController) {
+        this.sampleController = sampleController;
+
+        this.sampleController.tableObject.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         initListeners();
         reloadTableClients();
         filtredSearch();
@@ -111,7 +41,7 @@ public class TableClientsController {
         listOfCollums(); //формирует List с объектами типа клиент вытащенными из БД
         insertTable(); //заполняет таблицу данными
         setTotalLabel();
-        tableObject.setItems(listObjectInDB); //добавляем колонки с информацией в таблицу
+        sampleController.tableObject.setItems(listObjectInDB); //добавляем колонки с информацией в таблицу
     }
 
     //берёт данные из БД и создаёт List с данными
@@ -121,16 +51,16 @@ public class TableClientsController {
     }
 
     public void insertTable() {
-        collumNameClient.setCellValueFactory(cellData -> cellData.getValue().getterName());
-        collumAddressClient.setCellValueFactory(cellData -> cellData.getValue().getterAddress());
-        collumContactUser.setCellValueFactory(cellData -> cellData.getValue().getterContactUser());
-        collumTelephoneNumber.setCellValueFactory(cellData -> cellData.getValue().getterTelephoneNumber());
-        collumEmailClient.setCellValueFactory(cellData -> cellData.getValue().getterEmail());
-        collumAreaSecurity.setCellValueFactory(cellData -> cellData.getValue().getterAreaSecutiry());
-        collumPriceToMonth.setCellValueFactory(cellData -> cellData.getValue().getterPriceToMonth());
-        collumSimCards.setCellValueFactory(cellData -> cellData.getValue().getterSimCards());
-        collumNumberClients.setCellValueFactory(cellData -> cellData.getValue().getterNumberClients());
-        collumTheNotes.setCellValueFactory(cellData -> cellData.getValue().getterNotes());
+        sampleController.collumNameClient.setCellValueFactory(cellData -> cellData.getValue().getterName());
+        sampleController.collumAddressClient.setCellValueFactory(cellData -> cellData.getValue().getterAddress());
+        sampleController.collumContactUser.setCellValueFactory(cellData -> cellData.getValue().getterContactUser());
+        sampleController.collumTelephoneNumber.setCellValueFactory(cellData -> cellData.getValue().getterTelephoneNumber());
+        sampleController.collumEmailClient.setCellValueFactory(cellData -> cellData.getValue().getterEmail());
+        sampleController.collumAreaSecurity.setCellValueFactory(cellData -> cellData.getValue().getterAreaSecutiry());
+        sampleController.collumPriceToMonth.setCellValueFactory(cellData -> cellData.getValue().getterPriceToMonth());
+        sampleController.collumSimCards.setCellValueFactory(cellData -> cellData.getValue().getterSimCards());
+        sampleController.collumNumberClients.setCellValueFactory(cellData -> cellData.getValue().getterNumberClients());
+        sampleController.collumTheNotes.setCellValueFactory(cellData -> cellData.getValue().getterNotes());
         //меняет запись об общем колличестве объектов
         updateCountLabel();
     }
@@ -142,14 +72,14 @@ public class TableClientsController {
             return;
         }
         Button clickedBtn = (Button) source;
-        client = tableObject.getSelectionModel().getSelectedItem();
+        client = sampleController.tableObject.getSelectionModel().getSelectedItem();
 
         switch (clickedBtn.getId()) {
             case "addBtn":
                 try {
                     EditDialogTableController controller = main.showNewWindow("fxml/EditDialogTable.fxml", "Редактирование", 640, 409, Modality.APPLICATION_MODAL).getController();
-                    controller.addBtnsave();
                     controller.setBaseClientController(this);
+                    controller.addBtnsave();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -159,10 +89,6 @@ public class TableClientsController {
                 createDialogStage("Редактирование", 650, 434, client);
                 break;
             case "delBtn":
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/EditDialogTable.fxml"));
-                loader.load();
-                EditDialogTableController controller = loader.<EditDialogTableController>getController();
-
                 if (client == null) break;
 
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -171,14 +97,16 @@ public class TableClientsController {
 
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
-                    tableObject.getItems().remove(client);
+                    EditDialogTableController editDialogTableController = new EditDialogTableController();
+                    editDialogTableController.deleteClient(client);
+
+                    sampleController.tableObject.getItems().remove(client);
                     updateCountLabel();
                 } else {
                     alert.close();
                     break;
                 }
 
-                controller.deleteClient(client);
                 break;
         }
     }
@@ -187,37 +115,56 @@ public class TableClientsController {
     public void createDialogStage(String title, int width, int height, Client client) throws IOException {
         EditDialogTableController controller = main.showNewWindow("fxml/EditDialogTable.fxml", title, width, height, Modality.APPLICATION_MODAL).getController();
 
-        stage = (Stage) btnBack.getScene().getWindow();
         if (client != null) controller.setClient(client, this);
     }
 
-    //слушает клики мышью в таблице по выбранному полю
+    /**
+     * слушает клики мышью в таблице по выбранному полю
+     * инициализирует все слушатели кнопок в таблице
+     */
     private void initListeners() {
-        tableObject.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        sampleController.tableObject.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (mouseEvent.getClickCount() == 2) {  //если два клика
                     try {
-                        Client client = tableObject.getSelectionModel().getSelectedItem();
+                        Client client = sampleController.tableObject.getSelectionModel().getSelectedItem();
                         createDialogStage("Редактирование", 650, 434, client);
                     } catch (IOException e) {
                     }
                 }
             }
         });
-    }
 
-    //возвращаемся в главное окно программы
-    public void hideWindow() throws IOException {
-        stage = (Stage) btnBack.getScene().getWindow();
-        stage.close();
-        main.showNewWindow("fxml/Sample.fxml", "MultiToolSecurity v0.1", 1000, 700, Modality.NONE);
+        sampleController.editBtn.setOnAction(event -> {
+            try {
+                editBtnThisTableObject(event);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        sampleController.addBtn.setOnAction(event -> {
+            try {
+                editBtnThisTableObject(event);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        sampleController.delBtn.setOnAction(event -> {
+            try {
+                editBtnThisTableObject(event);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     //обновляет данные об общем количестве записей в таблице
     public void updateCountLabel() {
-        labelCount.setText("");
-        labelCount.setText("Объектов: " + listObjectInDB.size());
+        sampleController.labelCount.setText("");
+        sampleController.labelCount.setText("Объектов: " + listObjectInDB.size());
         setTotalLabel();
     }
 
@@ -236,30 +183,30 @@ public class TableClientsController {
                 }
             }
         }
-        totalLabel.setText(String.valueOf(totalPrice));
+        sampleController.totalLabel.setText(String.valueOf(totalPrice));
     }
 
     //метод отвечает за поле поиска и логика фильтра
     public void filtredSearch() {
-        ObservableList data = tableObject.getItems();
-        searchJFXTextField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+        ObservableList data = sampleController.tableObject.getItems();
+        sampleController.searchJFXTextField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             if (oldValue != null && (newValue.length() < oldValue.length())) {
-                tableObject.setItems(data);
+                sampleController.tableObject.setItems(data);
             }
             String value = newValue.toLowerCase();
             ObservableList<Client> subentries = FXCollections.observableArrayList();
 
-            long count = tableObject.getColumns().stream().count();
-            for (int i = 0; i < tableObject.getItems().size(); i++) {
+            long count = sampleController.tableObject.getColumns().stream().count();
+            for (int i = 0; i < sampleController.tableObject.getItems().size(); i++) {
                 for (int j = 0; j < count; j++) {
-                    String entry = "" + tableObject.getColumns().get(j).getCellData(i);
+                    String entry = "" + sampleController.tableObject.getColumns().get(j).getCellData(i);
                     if (entry.toLowerCase().contains(value)) {
-                        subentries.add(tableObject.getItems().get(i));
+                        subentries.add(sampleController.tableObject.getItems().get(i));
                         break;
                     }
                 }
             }
-            tableObject.setItems(subentries);
+            sampleController.tableObject.setItems(subentries);
         });
     }
 

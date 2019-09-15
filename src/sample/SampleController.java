@@ -2,12 +2,20 @@ package sample;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
+import sample.beans.Client;
+import sample.beans.Debetors;
 import sample.beans.Note;
 import sample.connection.ConnectToWEB;
+import sample.controllers.ClientsTableController;
+import sample.controllers.DebetorsTableController;
+import sample.controllers.IncomeReportController;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -24,22 +32,7 @@ public class SampleController {
     private URL location;
 
     @FXML
-    private JFXButton btnClientBase;
-
-    @FXML
-    JFXButton btnIncome;
-
-    @FXML
-    private JFXButton btnInWork;
-
-    @FXML
-    private JFXButton btnTheDebet;
-
-    @FXML
-    private JFXButton btnCalc;
-
-    @FXML
-    private JFXButton btnCalendar;
+    private Pane theNotePane;
 
     @FXML
     private TitledPane userTheNoteOfSample;
@@ -51,35 +44,281 @@ public class SampleController {
     private TextArea userInputTextArea;
 
     @FXML
+    private Label labelTodayTheNote;
+
+    @FXML
     private Label simpleTodayTheNote;
 
     @FXML
-    private JFXDatePicker datePicker;
+    private Pane buttonsPanel;
 
     @FXML
-    private Label labelTodayTheNote;
+    private JFXButton btnClientBase;
 
-    Stage stage;
+    @FXML
+    private JFXButton btnIncome;
+
+    @FXML
+    private JFXButton btnTheDebet;
+
+    @FXML
+    private JFXButton btnInWork;
+
+    @FXML
+    private JFXButton btnCalc;
+
+    @FXML
+    private JFXButton btnCalendar;
+
+    /**
+     * Описание панели с таблицей клиентов
+     */
+
+    @FXML
+    private Pane baseClientsPane;
+
+    @FXML
+    public TableView<Client> tableObject;
+
+    @FXML
+    public TableColumn<Client, String> collumNameClient;
+
+    @FXML
+    public TableColumn<Client, String> collumAddressClient;
+
+    @FXML
+    public TableColumn<Client, String> collumTelephoneNumber;
+
+    @FXML
+    public TableColumn<Client, String> collumContactUser;
+
+    @FXML
+    public TableColumn<Client, String> collumAreaSecurity;
+
+    @FXML
+    public TableColumn<Client, String> collumPriceToMonth;
+
+    @FXML
+    public TableColumn<Client, String> collumEmailClient;
+
+    @FXML
+    public TableColumn<Client, String> collumSimCards;
+
+    @FXML
+    public TableColumn<Client, String> collumNumberClients;
+
+    @FXML
+    public TableColumn<Client, String> collumTheNotes;
+
+    @FXML
+    public JFXButton addBtn;
+
+    @FXML
+    public JFXButton editBtn;
+
+    @FXML
+    public JFXButton delBtn;
+
+    @FXML
+    public Label labelCount;
+
+    @FXML
+    public JFXTextField searchJFXTextField;
+
+    @FXML
+    private Pane panelForTotalLabel;
+
+    @FXML
+    public Label totalLabel;
+
+    @FXML
+    public Pane incomePanel;
+
+    @FXML
+    public Pane debetorsTablePanel;
+
+    /**
+     * Описание панели с формированием отчета о доходах
+     */
+
+    @FXML
+    public JFXTextField accruedСommonField;
+
+    @FXML
+    public JFXTextField nonСashAccruedField;
+
+    @FXML
+    public JFXTextField cashAccruedField;
+
+    @FXML
+    public JFXTextField arrivedField;
+
+    @FXML
+    public JFXTextField arrivedNonCashField;
+
+    @FXML
+    public JFXTextField arrivedCashField;
+
+    @FXML
+    public JFXTextField clientsAcceptedField;
+
+    @FXML
+    public JFXTextField clientsGoneField;
+
+    @FXML
+    public JFXTextField clientsAcceptedSumField;
+
+    @FXML
+    public JFXTextField clientsGoneSumField;
+
+    @FXML
+    public Label totalSumcCientsField;
+
+    @FXML
+    public JFXTextField oneFIOField;
+
+    @FXML
+    public JFXTextField twoFIOField;
+
+    @FXML
+    public JFXTextField threeFIOField;
+
+    @FXML
+    public JFXTextField fourFIOField;
+
+    @FXML
+    public JFXTextField oneSalaryField;
+
+    @FXML
+    public JFXTextField twoSalaryField;
+
+    @FXML
+    public JFXTextField threeSalaryField;
+
+    @FXML
+    public JFXTextField fourSalaryField;
+
+    @FXML
+    public JFXTextField fiveSalaryField;
+
+    @FXML
+    public JFXTextField fiveFIOField;
+
+    @FXML
+    public JFXTextField sixSalaryField;
+
+    @FXML
+    public JFXTextField sixFIOField;
+
+    @FXML
+    public JFXTextField sevenSalaryField;
+
+    @FXML
+    public JFXTextField sevenFIOField;
+
+    @FXML
+    public Label allSalaryTheSum;
+
+    @FXML
+    public JFXButton reportBtn;
+
+    @FXML
+    public JFXDatePicker dateStop;
+
+    @FXML
+    public JFXTextArea theNoteOfReportArea;
+
+    @FXML
+    public JFXButton assemblyWorkBtn;
+
+    @FXML
+    public JFXDatePicker dateStart;
+
+    @FXML
+    private JFXButton btnCloseTableClientsPanel;
+
+    @FXML
+    private JFXButton btnCloseIncomePanel;
+
+    /**
+     * Описание панели с таблицей дебеторской задолженности
+     */
+    @FXML
+    public TableView<Debetors> tableDebetors;
+
+    @FXML
+    public TableColumn<Debetors, String> nameDebetorCollumn;
+
+    @FXML
+    public TableColumn<Debetors, String> totalDebtCollumn;
+
+    @FXML
+    public TableColumn<Debetors, String> lastPaymentCollumn;
+
+    @FXML
+    public TableColumn<Debetors, String> commentsCollumn;
+
+    @FXML
+    public TableColumn<Debetors, String> telephoneDebetorCollumn;
+
+    @FXML
+    public TableColumn<Debetors, String> emailDebetorCollumn;
+
+    @FXML
+    public Label totalDebtLabel;
+
+    @FXML
+    public JFXButton addDebetorBtn;
+
+    @FXML
+    public JFXButton editDebetorBtn;
+
+    @FXML
+    public JFXButton btnCloseTableDebetorsPanel;
+
+    @FXML
+    public JFXButton deleteDebetorBtn;
+
+    @FXML
+    public JFXButton unloadingBtn;
+
+
+
+    @FXML
+    void createTheNoteStartWindow(ActionEvent event) {
+
+    }
+
+    @FXML
+    void editBtnThisTableObject(ActionEvent event) {
+
+    }
+
+    private JFXDatePicker datePicker;
+
     Main main = new Main();
 
     @FXML
     void initialize() {
+
         todayTheNoteToSample();
 
         btnClientBase.setOnAction(event -> {
-            stage = (Stage) btnClientBase.getScene().getWindow();
-            stage.close();
-            main.showNewWindow("fxml/BaseClients.fxml", "База клиентов", 1000, 700, Modality.APPLICATION_MODAL);
-        });
-
-        btnTheDebet.setOnAction(event -> {
-            stage = (Stage)btnTheDebet.getScene().getWindow();
-            stage.close();
-            main.showNewWindow("fxml/Debetors.fxml", "Дебеторская задолженность", 1000, 700, Modality.APPLICATION_MODAL);
+            hideAllPanels();
+            new ClientsTableController(this);
+            baseClientsPane.setVisible(true);
         });
 
         btnIncome.setOnAction(event -> {
-            main.showNewWindow("fxml/Income.fxml", "Формирование отчета", 1000, 700, Modality.NONE);
+           hideAllPanels();
+           new IncomeReportController(this);
+           incomePanel.setVisible(true);
+        });
+
+        btnTheDebet.setOnAction(event -> {
+            hideAllPanels();
+            new DebetorsTableController(this);
+            debetorsTablePanel.setVisible(true);
         });
 
         btnCalendar.setOnAction(event -> {
@@ -88,6 +327,21 @@ public class SampleController {
 
         btnCalc.setOnAction(event -> {
             main.showNewWindow("fxml/Calculator.fxml", "Калькулятор", 300, 400, Modality.NONE);
+        });
+
+        btnCloseTableClientsPanel.setOnAction(event -> {
+            hideAllPanels();
+            theNotePane.setVisible(true);
+        });
+
+        btnCloseIncomePanel.setOnAction(event -> {
+            hideAllPanels();
+            theNotePane.setVisible(true);
+        });
+
+        btnCloseTableDebetorsPanel.setOnAction(event -> {
+            hideAllPanels();
+            theNotePane.setVisible(true);
         });
     }
 
@@ -134,5 +388,12 @@ public class SampleController {
         } else {
             labelTodayTheNote.setText("На сегодня заметок нет");
         }
+    }
+
+    private void hideAllPanels() {
+        incomePanel.setVisible(false);
+        baseClientsPane.setVisible(false);
+        theNotePane.setVisible(false);
+        debetorsTablePanel.setVisible(false);
     }
 }
