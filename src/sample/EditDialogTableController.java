@@ -126,6 +126,12 @@ public class EditDialogTableController {
             numberClientsField.setText(this.client.getNumber_clients());
             notesField.setText(this.client.getNotes());
 
+            if (this.client.getStatus_contract().equals("1")) {
+                statusContractLabel.setText("Подписан");
+            } else {
+                statusContractLabel.setText("Не подписан");
+            }
+
             this.clientsTableController = tableClientController;
     }
 
