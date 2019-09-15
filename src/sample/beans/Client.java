@@ -14,9 +14,9 @@ public class Client {
     private SimpleStringProperty sim_cards;
     private SimpleStringProperty number_clients;
     private SimpleStringProperty notes;
-    //private boolean sign_contract;
+    private SimpleStringProperty status_contract;
 
-    public Client(int id, String name, String address, String contact_user, String telephone_number, String email, String area_security, String price_to_month, String sim_cards, String number_clients , String notes){
+    public Client(int id, String name, String address, String contact_user, String telephone_number, String email, String area_security, String price_to_month, String sim_cards, String number_clients , String notes, String status_contract) {
         this.id = id;
         this.name = new SimpleStringProperty(name);
         this.address = new SimpleStringProperty(address);
@@ -28,10 +28,10 @@ public class Client {
         this.sim_cards = new SimpleStringProperty(sim_cards);
         this.number_clients = new SimpleStringProperty(number_clients);
         this.notes = new SimpleStringProperty(notes);
-        //this.sign_contract = sign_contract;
+        this.status_contract = new SimpleStringProperty(status_contract);
     }
 
-    public Client(String name, String address, String contact_user, String telephone_number, String email, String area_security, String price_to_month, String sim_cards, String number_clients , String notes){
+    public Client(String name, String address, String contact_user, String telephone_number, String email, String area_security, String price_to_month, String sim_cards, String number_clients , String notes, String status_contract){
         this.name = new SimpleStringProperty(name);
         this.address = new SimpleStringProperty(address);
         this.contact_user = new SimpleStringProperty(contact_user);
@@ -42,7 +42,7 @@ public class Client {
         this.sim_cards = new SimpleStringProperty(sim_cards);
         this.number_clients = new SimpleStringProperty(number_clients);
         this.notes = new SimpleStringProperty(notes);
-        //this.sign_contract = sign_contract;
+        this.status_contract = new SimpleStringProperty(status_contract);
     }
 
     public Client() {
@@ -56,6 +56,7 @@ public class Client {
         this.sim_cards = new SimpleStringProperty();
         this.number_clients = new SimpleStringProperty();
         this.notes = new SimpleStringProperty();
+        this.status_contract = new SimpleStringProperty();
     }
 
     public int getId() {
@@ -146,16 +147,13 @@ public class Client {
         this.notes.set(notes);
     }
 
-    /*
-    public boolean getSign_contract() {
-        return sign_contract;
+    public String getStatus_contract() {
+        return status_contract.get();
     }
 
-    public void setSign_contract(boolean sign_contract) {
-        this.sign_contract = sign_contract;
+    public void setStatus_contract(String status_contract) {
+        this.status_contract.set(status_contract);
     }
-     */
-
 
     public SimpleStringProperty getterName() {
         return name;
@@ -195,5 +193,9 @@ public class Client {
 
     public SimpleStringProperty getterNumberClients() {
         return number_clients;
+    }
+
+    public SimpleStringProperty getterStatusContract() {
+        return status_contract;
     }
 }

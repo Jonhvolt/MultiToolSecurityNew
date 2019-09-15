@@ -4,6 +4,9 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitMenuButton;
 import javafx.stage.Stage;
 import sample.beans.Client;
 import sample.connection.ConnectToWEB;
@@ -51,6 +54,18 @@ public class EditDialogTableController {
     private JFXTextField notesField;
 
     @FXML
+    private SplitMenuButton statusContractMenu;
+
+    @FXML
+    private MenuItem contractSignItem;
+
+    @FXML
+    private MenuItem contractNonSignItem;
+
+    @FXML
+    private Label statusContractLabel;
+
+    @FXML
     private JFXButton saveBtnEditTable;
 
     @FXML
@@ -73,6 +88,14 @@ public class EditDialogTableController {
             stage.close();
 
             clientsTableController.setTotalLabel();
+        });
+
+        contractSignItem.setOnAction(event -> {
+            statusContractLabel.setText("Подписан");
+        });
+
+        contractNonSignItem.setOnAction(event -> {
+            statusContractLabel.setText("Не подписан");
         });
     }
 
@@ -118,6 +141,13 @@ public class EditDialogTableController {
         client.setSim_cards(simCardsField.getText());
         client.setNumber_clients(numberClientsField.getText());
         client.setNotes(notesField.getText());
+
+        if (statusContractLabel.getText().equals("Подписан")) {
+            client.setStatus_contract(String.valueOf(1));
+        } else {
+            client.setStatus_contract(String.valueOf(0));
+        }
+
         return client;
     }
 
@@ -138,7 +168,7 @@ public class EditDialogTableController {
 
     //при нажатии кнопки сохранить, отправляем нового клиента в БД
     public void addClient() {
-        Client client = new Client(nameField.getText(), addressField.getText(), userField.getText(), telephoneNumberField.getText(), emailField.getText(), areaField.getText(), priceToMonthField.getText(), notesField.getText(), simCardsField.getText(), numberClientsField.getText());
+        Client client = new Client(nameField.getText(), addressField.getText(), userField.getText(), telephoneNumberField.getText(), emailField.getText(), areaField.getText(), priceToMonthField.getText(), notesField.getText(), simCardsField.getText(), numberClientsField.getText(), String.valueOf(0));
         connectToWEB.saveConnectToWEB(client);
     }
 

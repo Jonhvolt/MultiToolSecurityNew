@@ -61,6 +61,7 @@ public class ClientsTableController {
         sampleController.collumSimCards.setCellValueFactory(cellData -> cellData.getValue().getterSimCards());
         sampleController.collumNumberClients.setCellValueFactory(cellData -> cellData.getValue().getterNumberClients());
         sampleController.collumTheNotes.setCellValueFactory(cellData -> cellData.getValue().getterNotes());
+        sampleController.collumnStatus.setCellValueFactory(cellData -> cellData.getValue().getterStatusContract());
         //меняет запись об общем колличестве объектов
         updateCountLabel();
     }

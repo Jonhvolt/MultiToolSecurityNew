@@ -137,7 +137,8 @@
             </Pane>
             <TableView fx:id="tableObject" layoutY="30.0" prefHeight="595.0" prefWidth="1020.0" tableMenuButtonVisible="true">
                <columns>
-                  <TableColumn fx:id="collumNameClient" maxWidth="1.7976931348623157E308" prefWidth="162.0" text="Название" />
+                  <TableColumn fx:id="collumnStatus" prefWidth="43.0" resizable="false" text="Статус" />
+                  <TableColumn fx:id="collumNameClient" maxWidth="1.7976931348623157E308" prefWidth="194.0" text="Название" />
                   <TableColumn fx:id="collumAddressClient" minWidth="0.0" prefWidth="186.0" text="Адрес" />
                   <TableColumn fx:id="collumTelephoneNumber" prefWidth="134.0" text="Телефон" />
                   <TableColumn fx:id="collumContactUser" prefWidth="145.0" text="Контактное лицо" />

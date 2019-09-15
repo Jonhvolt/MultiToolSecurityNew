@@ -81,6 +81,9 @@ public class SampleController {
     public TableView<Client> tableObject;
 
     @FXML
+    public TableColumn<Client, String> collumnStatus;
+
+    @FXML
     public TableColumn<Client, String> collumNameClient;
 
     @FXML
