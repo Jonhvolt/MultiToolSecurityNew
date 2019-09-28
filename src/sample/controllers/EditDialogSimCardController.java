@@ -2,10 +2,11 @@ package sample.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 import sample.beans.SimCard;
+import sample.connection.ConnectToWEB;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -37,31 +38,34 @@ public class EditDialogSimCardController {
     private JFXButton saveEditDebetorBtn;
 
     @FXML
-    private JFXButton cancelEditDebetorBtn;
+    private JFXButton cancelEditSimCardBtn;
 
     SimCard simCard;
     SimCardController simCardController;
 
     @FXML
-    void saveEditSimCard(ActionEvent event) {
-        saveEdit();
-    }
-
-    @FXML
     void initialize() {
+        saveEditDebetorBtn.setOnAction(event -> {
+            saveEdit();
+        });
 
+        cancelEditSimCardBtn.setOnAction(event -> {
+            Stage stage = (Stage) cancelEditSimCardBtn.getScene().getWindow();
+            stage.close();
+        });
     }
 
-    public SimCard saveEdit() {
-        simCard.setKit(kitField.getText());
-        simCard.setNumber_one(simOneField.getText());
-        simCard.setNumber_two(simTwoField.getText());
-        simCard.setThe_note(commentsField.getText());
+    public void saveEdit() {
+        Stage stage = (Stage) saveEditDebetorBtn.getScene().getWindow();
 
-        return simCard;
-    }
+        this.simCard.setKit(kitField.getText());
+        this.simCard.setNumber_one(simOneField.getText());
+        this.simCard.setNumber_two(simTwoField.getText());
+        this.simCard.setThe_note(commentsField.getText());
 
-    public void setSimCardController(SimCardController simCardController) {
-        this.simCardController = simCardController;
+        ConnectToWEB connectToWEB = new ConnectToWEB();
+        connectToWEB.saveSimCard(this.simCard);
+
+        stage.close();
     }
 }

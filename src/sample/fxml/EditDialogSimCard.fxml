@@ -75,7 +75,7 @@
             <Font name="Bauhaus 93" size="20.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="cancelEditDebetorBtn" cancelButton="true" layoutX="403.0" layoutY="319.0" text="Отмена" textFill="#ffff8d">
+      <JFXButton fx:id="cancelEditSimCardBtn" cancelButton="true" layoutX="403.0" layoutY="319.0" text="Отмена" textFill="#ffff8d">
          <font>
             <Font name="Bauhaus 93" size="20.0" />
          </font>
