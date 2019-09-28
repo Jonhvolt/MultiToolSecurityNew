@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -87,7 +88,7 @@ public class DebetorsTableController {
         sampleController.tableDebetors.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (mouseEvent.getClickCount() == 2) {  //если два клика
+                if (mouseEvent.getClickCount() == 2 && mouseEvent.getButton() == MouseButton.PRIMARY) {  //если два клика
                     editDebetor();
                 }
             }
@@ -114,7 +115,7 @@ public class DebetorsTableController {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             ConnectToWEB connectToWEB = new ConnectToWEB();
-            connectToWEB.deleteConnectToWEB(debetor);
+            connectToWEB.deleteClient(debetor);
 
 
             sampleController.tableDebetors.getItems().remove(debetor);
@@ -126,12 +127,12 @@ public class DebetorsTableController {
 
     public void addNewDebetorInDBTable(Debetors debetor) {
         ConnectToWEB connectToWEB = new ConnectToWEB();
-        connectToWEB.saveConnectToWEB(debetor);
+        connectToWEB.saveClient(debetor);
     }
 
     public void listOfCollumsDebetors() {
         ConnectToWEB connectToWEB = new ConnectToWEB();
-        listDebetors = FXCollections.observableArrayList(connectToWEB.getConnectToWEB("debetors"));
+        listDebetors = FXCollections.observableArrayList(connectToWEB.getClient("debetors"));
     }
 
     public void insertDebetorsTable() {

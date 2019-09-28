@@ -94,12 +94,12 @@
                   <Font name="Bauhaus 93" size="20.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btnCalc" layoutX="643.0" layoutY="1.0" prefHeight="40.0" prefWidth="170.0" text="Калькулятор" textFill="#ffff8d">
+            <JFXButton fx:id="btnCalc" layoutX="799.0" prefHeight="40.0" prefWidth="170.0" text="Калькулятор" textFill="#ffff8d">
                <font>
                   <Font name="Bauhaus 93" size="20.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btnCalendar" layoutX="797.0" prefHeight="40.0" prefWidth="170.0" text="Календарь" textFill="#ffff8d">
+            <JFXButton fx:id="btnSimCards" layoutX="667.0" layoutY="1.0" text="Сим-карты" textFill="#ffff8d">
                <font>
                   <Font name="Bauhaus 93" size="20.0" />
                </font>
@@ -400,6 +400,40 @@
             <JFXButton fx:id="btnCloseTableDebetorsPanel" layoutX="971.0" prefHeight="9.0" prefWidth="25.0" text="X" textFill="#ffff8d" />
             <JFXButton fx:id="deleteDebetorBtn" layoutX="199.0" layoutY="2.0" text="Удалить" textFill="#ffff8d" />
             <JFXButton fx:id="unloadingBtn" layoutX="370.0" layoutY="2.0" text="Сделать выгрузку" textFill="#ffff8d" />
+         </children>
+      </Pane>
+      <JFXButton fx:id="btnCalendar" prefHeight="40.0" prefWidth="170.0" text="Календарь" textFill="#ffff8d" visible="false">
+         <font>
+            <Font name="Bauhaus 93" size="20.0" />
+         </font>
+      </JFXButton>
+      <Pane fx:id="simCardsTablePanel" prefHeight="700.0" prefWidth="1000.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="84.0">
+         <children>
+            <JFXButton fx:id="btnCloseTableSimCardsPanel" layoutX="971.0" prefHeight="9.0" prefWidth="25.0" text="X" textFill="#ffff8d" />
+            <TableView fx:id="tableSimCard" layoutY="32.0" prefHeight="595.0" prefWidth="1020.0">
+              <columns>
+                <TableColumn fx:id="kitSimCard" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" text="Комплект сим" />
+                <TableColumn fx:id="numberOneCimCard" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Номер 1" />
+                  <TableColumn fx:id="numberTwoSimCard" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Номер 2" />
+                  <TableColumn fx:id="clientSimCard" maxWidth="400.0" minWidth="400.0" prefWidth="400.0" text="Объект" />
+                  <TableColumn fx:id="theNoteSimCard" minWidth="270.0" prefWidth="270.0" text="Примечание" />
+              </columns>
+            </TableView>
+            <JFXButton fx:id="editSimCard" layoutX="155.0" layoutY="-1.0" prefHeight="30.0" prefWidth="91.0" text="Изменить" textFill="#ffff8d">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="deleteSimCard" layoutX="270.0" layoutY="-1.0" prefHeight="17.0" prefWidth="78.0" text="Удалить" textFill="#ffff8d">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="addSimCard" layoutX="59.0" layoutY="-2.0" text="Добавить" textFill="#ffff8d">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXButton>
          </children>
       </Pane>
    </children>

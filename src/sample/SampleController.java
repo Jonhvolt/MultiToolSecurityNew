@@ -12,10 +12,12 @@ import javafx.stage.Modality;
 import sample.beans.Client;
 import sample.beans.Debetors;
 import sample.beans.Note;
+import sample.beans.SimCard;
 import sample.connection.ConnectToWEB;
 import sample.controllers.ClientsTableController;
 import sample.controllers.DebetorsTableController;
 import sample.controllers.IncomeReportController;
+import sample.controllers.SimCardController;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -66,6 +68,9 @@ public class SampleController {
 
     @FXML
     private JFXButton btnCalc;
+
+    @FXML
+    private JFXButton btnSimCards;
 
     @FXML
     private JFXButton btnCalendar;
@@ -285,6 +290,43 @@ public class SampleController {
     @FXML
     public JFXButton unloadingBtn;
 
+    /**
+     * Описание панели с сим-картами
+     */
+
+    @FXML
+    public Pane simCardsTablePanel;
+
+    @FXML
+    public JFXButton btnCloseTableSimCardsPanel;
+
+    @FXML
+    public TableView<SimCard> tableSimCard;
+
+    @FXML
+    public TableColumn<SimCard, String> kitSimCard;
+
+    @FXML
+    public TableColumn<SimCard, String> numberOneCimCard;
+
+    @FXML
+    public TableColumn<SimCard, String> numberTwoSimCard;
+
+    @FXML
+    public TableColumn<SimCard, String> clientSimCard;
+
+    @FXML
+    public TableColumn<SimCard, String> theNoteSimCard;
+
+    @FXML
+    public JFXButton editSimCard;
+
+    @FXML
+    public JFXButton deleteSimCard;
+
+    @FXML
+    public JFXButton addSimCard;
+
 
 
     @FXML
@@ -324,6 +366,12 @@ public class SampleController {
             debetorsTablePanel.setVisible(true);
         });
 
+        btnSimCards.setOnAction(event -> {
+            hideAllPanels();
+            new SimCardController(this);
+           simCardsTablePanel.setVisible(true);
+        });
+
         btnCalendar.setOnAction(event -> {
             main.showNewWindow("fxml/Calendar.fxml", "Календарь", 574, 300, Modality.NONE);
         });
@@ -343,6 +391,11 @@ public class SampleController {
         });
 
         btnCloseTableDebetorsPanel.setOnAction(event -> {
+            hideAllPanels();
+            theNotePane.setVisible(true);
+        });
+
+        btnCloseTableSimCardsPanel.setOnAction(event -> {
             hideAllPanels();
             theNotePane.setVisible(true);
         });
@@ -394,6 +447,7 @@ public class SampleController {
     }
 
     private void hideAllPanels() {
+        simCardsTablePanel.setVisible(false);
         incomePanel.setVisible(false);
         baseClientsPane.setVisible(false);
         theNotePane.setVisible(false);

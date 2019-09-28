@@ -11,12 +11,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
-import sample.beans.Client;
-import sample.beans.Debetors;
-import sample.beans.Note;
-import sample.beans.ClientIntegrator;
-import sample.beans.DebetorIntegrator;
-import sample.beans.SimpleStringDeserializer;
+import sample.beans.*;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -29,7 +24,7 @@ public class ConnectToWEB implements Serializable {
     Type itemsListType;
     List listItemsDes;
 
-    public List getConnectToWEB(String typeResponse) {
+    public List getClient(String typeResponse) {
 
         if (typeResponse.equals("clients")) {
             url = "http://127.0.0.1:8080/allClients";
@@ -74,7 +69,7 @@ public class ConnectToWEB implements Serializable {
         return listItemsDes;
     }
 
-    public void deleteConnectToWEB(Object object) {
+    public void deleteClient(Object object) {
         ContentType contentType = ContentType.create("application/json", Charset.forName("UTF-8"));
         StringEntity postingString = null;
         if (object instanceof Client) {
@@ -100,7 +95,7 @@ public class ConnectToWEB implements Serializable {
         }
     }
 
-    public void saveConnectToWEB(Object object) {
+    public void saveClient(Object object) {
         ContentType contentType = ContentType.create("application/json", Charset.forName("UTF-8"));
         StringEntity postingString = null;
 
@@ -181,6 +176,77 @@ public class ConnectToWEB implements Serializable {
         url = "http://127.0.0.1:8080/saveNote";
         ContentType contentType = ContentType.create("application/json", Charset.forName("UTF-8"));
         StringEntity postingString = new StringEntity(new Gson().toJson(note), contentType);
+
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        try {
+            HttpPost     post          = new HttpPost(url);
+            post.setEntity(postingString);
+            httpClient.execute(post);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+    }
+
+    public List<SimCard> getSimCard() {
+
+        url = "http://127.0.0.1:8080/allSimCard";
+        itemsListType = new TypeToken<List<SimCard>>() {}.getType();
+        listItemsDes = new ArrayList<SimCard>();
+
+        HttpClient httpClient = HttpClientBuilder.create().build();
+
+        try {
+            HttpPost request = new HttpPost(url);
+            HttpResponse response = httpClient.execute(request);
+            HttpEntity httpEntity = response.getEntity();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(httpEntity.getContent()));
+
+            StringBuilder stringBuilder = new StringBuilder();
+            String currentLine;
+
+            while ((currentLine = reader.readLine()) != null) {
+                stringBuilder.append(currentLine);
+            }
+
+            reader.close();
+            String strResp = stringBuilder.toString();
+
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.registerTypeAdapter(SimpleStringProperty.class, new SimpleStringDeserializer());
+            Gson gson = gsonBuilder.create();
+
+            listItemsDes = gson.fromJson(strResp, itemsListType);
+        }  catch (IOException e) {
+            System.out.println(e);
+        }
+        return listItemsDes;
+    }
+
+    public void saveSimCard(SimCard simCard) {
+        ContentType contentType = ContentType.create("application/json", Charset.forName("UTF-8"));
+        url = "http://127.0.0.1:8080/saveSimCard";
+        SimCardIntegrator simCardIntegrator = new SimCardIntegrator(simCard);
+        StringEntity postingString = new StringEntity(new Gson().toJson(simCardIntegrator), contentType);
+
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        try {
+            HttpPost post = new HttpPost(url);
+            post.setEntity(postingString);
+            httpClient.execute(post);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            System.out.println(e);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteSimCard(SimCard simCard) {
+        ContentType contentType = ContentType.create("application/json", Charset.forName("UTF-8"));
+        url = "http://127.0.0.1:8080/deleteSimCard";
+        SimCardIntegrator simCardIntegrator = new SimCardIntegrator(simCard);
+        StringEntity postingString = new StringEntity(new Gson().toJson(simCardIntegrator), contentType);
 
         HttpClient httpClient = HttpClientBuilder.create().build();
         try {

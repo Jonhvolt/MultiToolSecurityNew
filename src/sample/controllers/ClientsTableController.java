@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import sample.EditDialogTableController;
@@ -44,7 +45,7 @@ public class ClientsTableController {
     //берёт данные из БД и создаёт List с данными
     public void listOfCollums() {
         ConnectToWEB connectToWEB = new ConnectToWEB();
-        listObjectInDB = FXCollections.observableArrayList(connectToWEB.getConnectToWEB("clients"));
+        listObjectInDB = FXCollections.observableArrayList(connectToWEB.getClient("clients"));
     }
 
     public void insertTable() {
@@ -124,7 +125,7 @@ public class ClientsTableController {
         sampleController.tableObject.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (mouseEvent.getClickCount() == 2) {  //если два клика
+                if (mouseEvent.getClickCount() == 2 && mouseEvent.getButton() == MouseButton.PRIMARY) {  //если два клика
                     try {
                         Client client = sampleController.tableObject.getSelectionModel().getSelectedItem();
                         createDialogStage("Редактирование", 650, 434, client);

@@ -165,17 +165,17 @@ public class EditDialogTableController {
     }
 
     public void deleteClient(Client client) {
-        connectToWEB.deleteConnectToWEB(client);
+        connectToWEB.deleteClient(client);
     }
 
     public void editClient(Client client) {
-        connectToWEB.saveConnectToWEB(client);
+        connectToWEB.saveClient(client);
     }
 
     //при нажатии кнопки сохранить, отправляем нового клиента в БД
     public void addClient() {
         Client client = new Client(nameField.getText(), addressField.getText(), userField.getText(), telephoneNumberField.getText(), emailField.getText(), areaField.getText(), priceToMonthField.getText(), notesField.getText(), simCardsField.getText(), numberClientsField.getText(), String.valueOf(0));
-        connectToWEB.saveConnectToWEB(client);
+        connectToWEB.saveClient(client);
     }
 
 //    public void setBaseClientController(TableClientsController baseClient) {

@@ -66,7 +66,7 @@ public class EditDialogDebetorsController {
         this.debetor.setLast_payment(lastPaymentField.getText());
         this.debetor.setComments(commentsField.getText());
         ConnectToWEB connectToWEB = new ConnectToWEB();
-        connectToWEB.saveConnectToWEB(debetor);
+        connectToWEB.saveClient(debetor);
 
         debetorsTableController.setTotalDebtLabel();
 

@@ -11,11 +11,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import sample.beans.Client;
-import sample.connection.ConnectToWEB;
 import sample.beans.Debetors;
+import sample.beans.SimCard;
+import sample.connection.ConnectToWEB;
 import sample.controllers.DebetorsTableController;
-
-import java.io.IOException;
+import sample.controllers.SimCardController;
 
 public class AddNewDebetorWindowController {
 
@@ -37,6 +37,7 @@ public class AddNewDebetorWindowController {
     private ObservableList<Client> listObjectInDB;
     Debetors debetor;
     private DebetorsTableController debetorsController;
+    private SimCardController simCardController;
 
     @FXML
     void initialize() {
@@ -50,42 +51,51 @@ public class AddNewDebetorWindowController {
             Stage stage = (Stage) cancelBtn.getScene().getWindow();
             stage.close();
         });
+
+        chooseBtn.setOnAction(event -> {
+            createNewDebetorForDebetorsTable(event);
+        });
     }
 
-    public void createNewDebetorForDebetorsTable() throws IOException {
-        debetor = new Debetors();
+    public void createNewDebetorForDebetorsTable(javafx.event.ActionEvent event) {
         Client client = tableSearchDebetors.getSelectionModel().getSelectedItem();
-        debetor.setName_debetor(client.getName());
-        debetor.setTotal_debt("");
-        debetor.setLast_payment("");
-        debetor.setComments("");
-        if (client.getTelephone_number().equals(null) || client.getTelephone_number() == null) {
-            debetor.setTelephone_number("");
-        } else {
-            debetor.setTelephone_number(client.getTelephone_number());
+
+        if (simCardController != null && client != null) {
+            SimCard simCard = new SimCard(client.getName(), "", "", "", "", client.getId());
+
+            simCardController.putNewSimCard(simCard);
         }
 
-        if (client.getEmail().equals(null) || client.getEmail() == null) {
-            debetor.setEmail("");
-        } else {
-            debetor.setEmail(client.getEmail());
-        }
+        if (debetorsController != null && client != null) {
+            debetor = new Debetors();
+            debetor.setName_debetor(client.getName());
+            debetor.setTotal_debt("");
+            debetor.setLast_payment("");
+            debetor.setComments("");
+            if (client.getTelephone_number().equals(null) || client.getTelephone_number() == null) {
+                debetor.setTelephone_number("");
+            } else {
+                debetor.setTelephone_number(client.getTelephone_number());
+            }
 
-        this.debetorsController.putNewDebetor(debetor);
-        this.debetorsController.reloadTableDebetors();
+            if (client.getEmail().equals(null) || client.getEmail() == null) {
+                debetor.setEmail("");
+            } else {
+                debetor.setEmail(client.getEmail());
+            }
+
+            this.debetorsController.putNewDebetor(debetor);
+            this.debetorsController.reloadTableDebetors();
+        }
 
         Stage stage = (Stage) chooseBtn.getScene().getWindow();
         stage.close();
     }
 
-    public void setDebetorsController(DebetorsTableController debetorsController) {
-        this.debetorsController = debetorsController;
-    }
-
 
     public void insertListOfCollumn() {
         ConnectToWEB connectToWEB = new ConnectToWEB();
-        listObjectInDB = FXCollections.observableArrayList(connectToWEB.getConnectToWEB("clients"));
+        listObjectInDB = FXCollections.observableArrayList(connectToWEB.getClient("clients"));
     }
 
     public void insertCollumnDebetors() {
@@ -113,5 +123,13 @@ public class AddNewDebetorWindowController {
             }
             tableSearchDebetors.setItems(subentries);
         });
+    }
+
+    public void setDebetorsController(DebetorsTableController debetorsController) {
+        this.debetorsController = debetorsController;
+    }
+
+    public void setSimCardController(SimCardController simCardController) {
+        this.simCardController = simCardController;
     }
 }
