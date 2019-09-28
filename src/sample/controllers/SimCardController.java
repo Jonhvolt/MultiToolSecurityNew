@@ -8,11 +8,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
-import sample.AddNewDebetorWindowController;
 import sample.Main;
-import sample.SampleController;
 import sample.beans.SimCard;
-import sample.connection.ConnectToWEB;
+import sample.connection.ConnectToWEBImpl;
 
 import java.util.Optional;
 
@@ -22,7 +20,7 @@ public class SimCardController {
     ObservableList<SimCard> listSimCard;
     Main main = new Main();
     SimCard simCard;
-    ConnectToWEB connectToWEB = new ConnectToWEB();
+    ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
 
     public SimCardController(SampleController sampleController) {
         this.sampleController = sampleController;
@@ -96,7 +94,7 @@ public class SimCardController {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-                ConnectToWEB connectToWEB = new ConnectToWEB();
+                ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
                 connectToWEB.deleteSimCard(simCard);
 
                 sampleController.tableSimCard.getItems().remove(simCard);

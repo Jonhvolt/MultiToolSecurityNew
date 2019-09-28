@@ -1,4 +1,4 @@
-package sample;
+package sample.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
@@ -9,8 +9,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.stage.Stage;
 import sample.beans.Client;
-import sample.connection.ConnectToWEB;
-import sample.controllers.ClientsTableController;
+import sample.connection.ConnectToWEBImpl;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -72,7 +71,7 @@ public class EditDialogTableController {
     private JFXButton cancelBtn;
 
     Client client;
-    ConnectToWEB connectToWEB = new ConnectToWEB();
+    ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
     private ClientsTableController clientsTableController;
 
     @FXML

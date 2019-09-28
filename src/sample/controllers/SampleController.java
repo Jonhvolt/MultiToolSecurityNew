@@ -1,4 +1,4 @@
-package sample;
+package sample.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
@@ -9,15 +9,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
+import sample.Main;
 import sample.beans.Client;
 import sample.beans.Debetors;
 import sample.beans.Note;
 import sample.beans.SimCard;
-import sample.connection.ConnectToWEB;
-import sample.controllers.ClientsTableController;
-import sample.controllers.DebetorsTableController;
-import sample.controllers.IncomeReportController;
-import sample.controllers.SimCardController;
+import sample.connection.ConnectToWEBImpl;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -418,7 +415,7 @@ public class SampleController {
                 String stringDATE = date.toString();
                 if (!(userTheNote.equals("")) && !(userTheNote == null) && date != null) {
                     Note note = new Note(userTheNote, stringDATE);
-                    ConnectToWEB connectToWEB = new ConnectToWEB();
+                    ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
                     connectToWEB.saveNoteToWEB(note);
                 }
                 userTheNoteOfSample.setExpanded(false);
@@ -429,7 +426,7 @@ public class SampleController {
     //показывает заметку на главном экране, если на этот день есть заметка
     public void todayTheNoteToSample() {
         String strDATE_NOW = LocalDate.now().toString();
-        ConnectToWEB connectToWEB = new ConnectToWEB();
+        ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
         connectToWEB.getNotesToWEB();
         List<Note> listNotes = new ArrayList<>(connectToWEB.getNotesToWEB());
 

@@ -1,4 +1,4 @@
-package sample;
+package sample.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
@@ -13,9 +13,7 @@ import javafx.stage.Stage;
 import sample.beans.Client;
 import sample.beans.Debetors;
 import sample.beans.SimCard;
-import sample.connection.ConnectToWEB;
-import sample.controllers.DebetorsTableController;
-import sample.controllers.SimCardController;
+import sample.connection.ConnectToWEBImpl;
 
 public class AddNewDebetorWindowController {
 
@@ -94,7 +92,7 @@ public class AddNewDebetorWindowController {
 
 
     public void insertListOfCollumn() {
-        ConnectToWEB connectToWEB = new ConnectToWEB();
+        ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
         listObjectInDB = FXCollections.observableArrayList(connectToWEB.getClient("clients"));
     }
 

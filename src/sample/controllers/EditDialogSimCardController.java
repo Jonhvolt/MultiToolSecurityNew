@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import sample.beans.SimCard;
-import sample.connection.ConnectToWEB;
+import sample.connection.ConnectToWEBImpl;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -63,7 +63,7 @@ public class EditDialogSimCardController {
         this.simCard.setNumber_two(simTwoField.getText());
         this.simCard.setThe_note(commentsField.getText());
 
-        ConnectToWEB connectToWEB = new ConnectToWEB();
+        ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
         connectToWEB.saveSimCard(this.simCard);
 
         stage.close();

@@ -10,12 +10,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import sample.AddNewDebetorWindowController;
-import sample.EditDialogDebetorsController;
 import sample.Main;
-import sample.SampleController;
 import sample.beans.Debetors;
-import sample.connection.ConnectToWEB;
+import sample.connection.ConnectToWEBImpl;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -114,7 +111,7 @@ public class DebetorsTableController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            ConnectToWEB connectToWEB = new ConnectToWEB();
+            ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
             connectToWEB.deleteClient(debetor);
 
 
@@ -126,12 +123,12 @@ public class DebetorsTableController {
     }
 
     public void addNewDebetorInDBTable(Debetors debetor) {
-        ConnectToWEB connectToWEB = new ConnectToWEB();
+        ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
         connectToWEB.saveClient(debetor);
     }
 
     public void listOfCollumsDebetors() {
-        ConnectToWEB connectToWEB = new ConnectToWEB();
+        ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
         listDebetors = FXCollections.observableArrayList(connectToWEB.getClient("debetors"));
     }
 

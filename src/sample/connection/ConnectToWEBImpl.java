@@ -19,7 +19,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConnectToWEB implements Serializable {
+public class ConnectToWEBImpl implements Serializable {
     private String url;
     Type itemsListType;
     List listItemsDes;

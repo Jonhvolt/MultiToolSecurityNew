@@ -9,11 +9,9 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
-import sample.EditDialogTableController;
 import sample.Main;
-import sample.SampleController;
 import sample.beans.Client;
-import sample.connection.ConnectToWEB;
+import sample.connection.ConnectToWEBImpl;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -44,7 +42,7 @@ public class ClientsTableController {
 
     //берёт данные из БД и создаёт List с данными
     public void listOfCollums() {
-        ConnectToWEB connectToWEB = new ConnectToWEB();
+        ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
         listObjectInDB = FXCollections.observableArrayList(connectToWEB.getClient("clients"));
     }
 

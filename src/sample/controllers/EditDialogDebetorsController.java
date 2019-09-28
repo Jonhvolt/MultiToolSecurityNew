@@ -1,13 +1,12 @@
-package sample;
+package sample.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import sample.connection.ConnectToWEB;
+import sample.connection.ConnectToWEBImpl;
 import sample.beans.Debetors;
-import sample.controllers.DebetorsTableController;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -65,7 +64,7 @@ public class EditDialogDebetorsController {
         this.debetor.setTotal_debt(totalDebtField.getText());
         this.debetor.setLast_payment(lastPaymentField.getText());
         this.debetor.setComments(commentsField.getText());
-        ConnectToWEB connectToWEB = new ConnectToWEB();
+        ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
         connectToWEB.saveClient(debetor);
 
         debetorsTableController.setTotalDebtLabel();
