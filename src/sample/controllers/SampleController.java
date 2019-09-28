@@ -14,7 +14,8 @@ import sample.beans.Client;
 import sample.beans.Debetors;
 import sample.beans.Note;
 import sample.beans.SimCard;
-import sample.connection.ConnectToWEBImpl;
+import sample.service.NoteService;
+import sample.service.serviceImpl.NoteServiceImpl;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -339,6 +340,7 @@ public class SampleController {
     private JFXDatePicker datePicker;
 
     Main main = new Main();
+    NoteService noteService = new NoteServiceImpl();
 
     @FXML
     void initialize() {
@@ -415,8 +417,7 @@ public class SampleController {
                 String stringDATE = date.toString();
                 if (!(userTheNote.equals("")) && !(userTheNote == null) && date != null) {
                     Note note = new Note(userTheNote, stringDATE);
-                    ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
-                    connectToWEB.saveNoteToWEB(note);
+                    noteService.saveNote(note);
                 }
                 userTheNoteOfSample.setExpanded(false);
             } else return;
@@ -426,9 +427,8 @@ public class SampleController {
     //показывает заметку на главном экране, если на этот день есть заметка
     public void todayTheNoteToSample() {
         String strDATE_NOW = LocalDate.now().toString();
-        ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
-        connectToWEB.getNotesToWEB();
-        List<Note> listNotes = new ArrayList<>(connectToWEB.getNotesToWEB());
+
+        List<Note> listNotes = new ArrayList<>(noteService.getNote());
 
         if (listNotes.size() > 0) {
             int count = 0;

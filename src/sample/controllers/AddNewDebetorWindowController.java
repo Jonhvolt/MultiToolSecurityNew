@@ -13,7 +13,8 @@ import javafx.stage.Stage;
 import sample.beans.Client;
 import sample.beans.Debetors;
 import sample.beans.SimCard;
-import sample.connection.ConnectToWEBImpl;
+import sample.service.ClientService;
+import sample.service.serviceImpl.ClientServiceImpl;
 
 public class AddNewDebetorWindowController {
 
@@ -61,7 +62,7 @@ public class AddNewDebetorWindowController {
         if (simCardController != null && client != null) {
             SimCard simCard = new SimCard(client.getName(), "", "", "", "", client.getId());
 
-            simCardController.putNewSimCard(simCard);
+            simCardController.addNewSimCard(simCard);
         }
 
         if (debetorsController != null && client != null) {
@@ -92,8 +93,11 @@ public class AddNewDebetorWindowController {
 
 
     public void insertListOfCollumn() {
-        ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
-        listObjectInDB = FXCollections.observableArrayList(connectToWEB.getClient("clients"));
+        ClientService clientService = new ClientServiceImpl();
+        listObjectInDB = FXCollections.observableArrayList(clientService.getClient());
+
+//        ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
+//        listObjectInDB = FXCollections.observableArrayList(connectToWEB.getClient("clients"));
     }
 
     public void insertCollumnDebetors() {

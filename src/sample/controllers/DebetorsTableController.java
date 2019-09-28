@@ -12,7 +12,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.Main;
 import sample.beans.Debetors;
-import sample.connection.ConnectToWEBImpl;
+import sample.service.DebetorService;
+import sample.service.serviceImpl.DebetorServiceImpl;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -25,6 +26,8 @@ public class DebetorsTableController {
     private Main main = new Main();
     private Debetors debetor;
     private ObservableList<Debetors> listDebetors;
+
+    private DebetorService debetorService = new DebetorServiceImpl();
 
     public DebetorsTableController(SampleController sampleController) {
         this.sampleController = sampleController;
@@ -98,7 +101,7 @@ public class DebetorsTableController {
     }
 
     public void putNewDebetor(Debetors debetor) {
-        addNewDebetorInDBTable(debetor);
+        debetorService.saveDebetor(debetor);
         listOfCollumsDebetors();
     }
 
@@ -111,9 +114,7 @@ public class DebetorsTableController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
-            connectToWEB.deleteClient(debetor);
-
+            debetorService.deleteDebetor(debetor);
 
             sampleController.tableDebetors.getItems().remove(debetor);
             setTotalDebtLabel();
@@ -122,14 +123,8 @@ public class DebetorsTableController {
         }
     }
 
-    public void addNewDebetorInDBTable(Debetors debetor) {
-        ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
-        connectToWEB.saveClient(debetor);
-    }
-
     public void listOfCollumsDebetors() {
-        ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
-        listDebetors = FXCollections.observableArrayList(connectToWEB.getClient("debetors"));
+        listDebetors = FXCollections.observableArrayList(debetorService.getDebetor());
     }
 
     public void insertDebetorsTable() {

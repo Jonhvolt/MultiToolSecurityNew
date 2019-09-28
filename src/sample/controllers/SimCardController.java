@@ -10,7 +10,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import sample.Main;
 import sample.beans.SimCard;
-import sample.connection.ConnectToWEBImpl;
+import sample.service.SimCardService;
+import sample.service.serviceImpl.SimCardServiceImpl;
 
 import java.util.Optional;
 
@@ -20,7 +21,7 @@ public class SimCardController {
     ObservableList<SimCard> listSimCard;
     Main main = new Main();
     SimCard simCard;
-    ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
+    private SimCardService simCardService = new SimCardServiceImpl();
 
     public SimCardController(SampleController sampleController) {
         this.sampleController = sampleController;
@@ -94,8 +95,7 @@ public class SimCardController {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-                ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
-                connectToWEB.deleteSimCard(simCard);
+                simCardService.deleteSimCard(simCard);
 
                 sampleController.tableSimCard.getItems().remove(simCard);
             } else {
@@ -104,13 +104,13 @@ public class SimCardController {
         }
     }
 
-    public void putNewSimCard(SimCard simCard) {
-        connectToWEB.saveSimCard(simCard);
+    public void addNewSimCard(SimCard simCard) {
+        simCardService.saveSimCard(simCard);
         updateTableSimCard();
     }
 
     private void updateTableSimCard() {
-        listSimCard = FXCollections.observableArrayList(connectToWEB.getSimCard());
+        listSimCard = FXCollections.observableArrayList(simCardService.getSimCard());
         insertSimCardTable();
     }
 

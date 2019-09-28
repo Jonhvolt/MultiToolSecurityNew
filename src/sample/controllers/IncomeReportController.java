@@ -28,12 +28,11 @@ public class IncomeReportController {
         try {
             LocalDate startDate = sampleController.dateStart.getValue();
             LocalDate stopDate = sampleController.dateStop.getValue();
-            //обработка ошибки о не выбранной дате
+
             DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
             String currectDateStart = startDate.format(dateFormat);
             String currectDateStop = stopDate.format(dateFormat);
             String startAndStopDate = "Начало периода отчёта: " + currectDateStart + " окончание периода отчёта: " + currectDateStop + System.lineSeparator();
-            //запись данных в файл
 
             FileWriter writer;
             writer = new FileWriter(file);
@@ -67,7 +66,7 @@ public class IncomeReportController {
         }
     }
 
-    //метод работает с полями зарплаты и формирует строки для записи в файл
+    // работает с полями зарплаты и формирует строки для записи в файл
     private String theSalaryOfMonth() {
         if (sampleController.oneSalaryField.getText().isEmpty()) sampleController.oneSalaryField.setText("0");
         if (sampleController.twoSalaryField.getText().isEmpty()) sampleController.twoSalaryField.setText("0");

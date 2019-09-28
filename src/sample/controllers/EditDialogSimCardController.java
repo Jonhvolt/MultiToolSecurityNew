@@ -6,7 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import sample.beans.SimCard;
-import sample.connection.ConnectToWEBImpl;
+import sample.service.SimCardService;
+import sample.service.serviceImpl.SimCardServiceImpl;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -42,6 +43,7 @@ public class EditDialogSimCardController {
 
     SimCard simCard;
     SimCardController simCardController;
+    SimCardService simCardService = new SimCardServiceImpl();
 
     @FXML
     void initialize() {
@@ -62,9 +64,7 @@ public class EditDialogSimCardController {
         this.simCard.setNumber_one(simOneField.getText());
         this.simCard.setNumber_two(simTwoField.getText());
         this.simCard.setThe_note(commentsField.getText());
-
-        ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
-        connectToWEB.saveSimCard(this.simCard);
+        simCardService.saveSimCard(this.simCard);
 
         stage.close();
     }

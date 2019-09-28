@@ -5,8 +5,9 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import sample.connection.ConnectToWEBImpl;
 import sample.beans.Debetors;
+import sample.service.DebetorService;
+import sample.service.serviceImpl.DebetorServiceImpl;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -46,10 +47,9 @@ public class EditDialogDebetorsController {
     @FXML
     private JFXButton cancelEditDebetorBtn;
 
-    public double totalDebtDouble;
-
     public Debetors debetor;
     public DebetorsTableController debetorsTableController;
+    private DebetorService debetorService = new DebetorServiceImpl();
 
     @FXML
     void initialize() {
@@ -64,8 +64,8 @@ public class EditDialogDebetorsController {
         this.debetor.setTotal_debt(totalDebtField.getText());
         this.debetor.setLast_payment(lastPaymentField.getText());
         this.debetor.setComments(commentsField.getText());
-        ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
-        connectToWEB.saveClient(debetor);
+
+        debetorService.saveDebetor(debetor);
 
         debetorsTableController.setTotalDebtLabel();
 

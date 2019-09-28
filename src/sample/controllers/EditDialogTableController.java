@@ -9,7 +9,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.stage.Stage;
 import sample.beans.Client;
-import sample.connection.ConnectToWEBImpl;
+import sample.service.ClientService;
+import sample.service.serviceImpl.ClientServiceImpl;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -71,7 +72,7 @@ public class EditDialogTableController {
     private JFXButton cancelBtn;
 
     Client client;
-    ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
+    ClientService clientService = new ClientServiceImpl();
     private ClientsTableController clientsTableController;
 
     @FXML
@@ -163,23 +164,15 @@ public class EditDialogTableController {
         stage.close();
     }
 
-    public void deleteClient(Client client) {
-        connectToWEB.deleteClient(client);
-    }
-
     public void editClient(Client client) {
-        connectToWEB.saveClient(client);
+        clientService.saveClient(client);
     }
 
     //при нажатии кнопки сохранить, отправляем нового клиента в БД
     public void addClient() {
         Client client = new Client(nameField.getText(), addressField.getText(), userField.getText(), telephoneNumberField.getText(), emailField.getText(), areaField.getText(), priceToMonthField.getText(), notesField.getText(), simCardsField.getText(), numberClientsField.getText(), String.valueOf(0));
-        connectToWEB.saveClient(client);
+        clientService.saveClient(client);
     }
-
-//    public void setBaseClientController(TableClientsController baseClient) {
-//        this.baseClient = baseClient;
-//    }
 
     public void setBaseClientController(ClientsTableController clientController) {
         this.clientsTableController = clientController;

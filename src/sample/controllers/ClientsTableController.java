@@ -5,18 +5,24 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import sample.Main;
 import sample.beans.Client;
-import sample.connection.ConnectToWEBImpl;
+import sample.service.ClientService;
+import sample.service.serviceImpl.ClientServiceImpl;
 
 import java.io.IOException;
 import java.util.Optional;
 
 public class ClientsTableController {
+    private ClientService clientService = new ClientServiceImpl();
+
     Client client;
     ObservableList<Client> listObjectInDB;
     Main main = new Main();
@@ -42,8 +48,7 @@ public class ClientsTableController {
 
     //берёт данные из БД и создаёт List с данными
     public void listOfCollums() {
-        ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
-        listObjectInDB = FXCollections.observableArrayList(connectToWEB.getClient("clients"));
+        listObjectInDB = FXCollections.observableArrayList(clientService.getClient());
     }
 
     public void insertTable() {
@@ -94,8 +99,8 @@ public class ClientsTableController {
 
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
-                    EditDialogTableController editDialogTableController = new EditDialogTableController();
-                    editDialogTableController.deleteClient(client);
+
+                    clientService.deleteClient(client);
 
                     sampleController.tableObject.getItems().remove(client);
                     updateCountLabel();
