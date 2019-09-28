@@ -38,7 +38,7 @@ public class DebetorsTableController {
         tableDebetorsListener();
 
         this.sampleController.addDebetorBtn.setOnAction(event -> {
-            AddNewDebetorWindowController controller = main.showNewWindow("fxml/AddNewDebetorWindow.fxml", "Добавить должника", 450, 700, Modality.APPLICATION_MODAL).getController();
+            AddWindowController controller = main.showNewWindow("fxml/AddNewDebetorWindow.fxml", "Добавить должника", 450, 700, Modality.APPLICATION_MODAL).getController();
             controller.setDebetorsController(this);
         });
 

@@ -80,7 +80,7 @@ public class SimCardController {
     }
 
     private void add() {
-        AddNewDebetorWindowController controller = main.showNewWindow("fxml/AddNewDebetorWindow.fxml", "Добавить должника", 450, 700, Modality.APPLICATION_MODAL).getController();
+        AddWindowController controller = main.showNewWindow("fxml/AddNewDebetorWindow.fxml", "Добавить должника", 450, 700, Modality.APPLICATION_MODAL).getController();
         controller.setSimCardController(this);
     }
 

@@ -5,10 +5,12 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import sample.beans.Client;
 import sample.beans.Debetors;
@@ -16,7 +18,7 @@ import sample.beans.SimCard;
 import sample.service.ClientService;
 import sample.service.serviceImpl.ClientServiceImpl;
 
-public class AddNewDebetorWindowController {
+public class AddWindowController {
 
     @FXML
     private TableView<Client> tableSearchDebetors;
@@ -52,11 +54,20 @@ public class AddNewDebetorWindowController {
         });
 
         chooseBtn.setOnAction(event -> {
-            createNewDebetorForDebetorsTable(event);
+            createNewDebetorForDebetorsTable();
+        });
+
+        tableSearchDebetors.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getClickCount() == 2) {
+                    createNewDebetorForDebetorsTable();
+                }
+            }
         });
     }
 
-    public void createNewDebetorForDebetorsTable(javafx.event.ActionEvent event) {
+    public void createNewDebetorForDebetorsTable() {
         Client client = tableSearchDebetors.getSelectionModel().getSelectedItem();
 
         if (simCardController != null && client != null) {
@@ -95,9 +106,6 @@ public class AddNewDebetorWindowController {
     public void insertListOfCollumn() {
         ClientService clientService = new ClientServiceImpl();
         listObjectInDB = FXCollections.observableArrayList(clientService.getClient());
-
-//        ConnectToWEBImpl connectToWEB = new ConnectToWEBImpl();
-//        listObjectInDB = FXCollections.observableArrayList(connectToWEB.getClient("clients"));
     }
 
     public void insertCollumnDebetors() {
